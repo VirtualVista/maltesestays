@@ -571,6 +571,7 @@ def page(path, title, meta, body, schema=None, og_image=None, active="", extra_h
 <link rel="canonical" href="{canon(path)}">
 <meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{BRAND}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(meta)}"><meta property="og:url" content="{canon(path)}"><meta property="og:image" content="{og}"><meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="msvalidate.01" content="1FD590CE64174ED0A1ED2110DCB326FE">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2332375D'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Inter,Arial' font-weight='700' font-size='24' fill='white'%3EMS%3C/text%3E%3C/svg%3E">
