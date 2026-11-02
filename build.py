@@ -19,6 +19,7 @@ EMAIL = "reservations.landlordcare@gmail.com"
 PHONE_DISPLAY = "+356 9955 0351"
 COUPON = ""  # returning-guest code: not shown publicly
 OWNER_SITE = "https://landlord.care"
+GA_ID = "G-N4DX6XZHKG"
 ADDRESS = {"street": "30, Triq San Girgor", "locality": "Sliema", "postal": "SLM 2113", "country": "MT"}
 TODAY = datetime.date.today().isoformat()
 
@@ -205,6 +206,7 @@ CSS = r"""
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15172a;--bg2:#1d2036;--stone:#232743;--ink:#eef0f6;--navy:#dfe4f3;--blue:#7fa8ec;--blue-dark:#a9c4f4;--mist:#3a4060;--slate:#a9b0c6;--line:#2f3453;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#15172a;--bg2:#1d2036;--stone:#232743;--ink:#eef0f6;--navy:#dfe4f3;--blue:#7fa8ec;--blue-dark:#a9c4f4;--mist:#3a4060;--slate:#a9b0c6;--line:#2f3453;color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
@@ -329,6 +331,11 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
 @media(max-width:820px){.mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--bg2);border-top:1px solid var(--line);padding:.6rem max(16px,env(safe-area-inset-right,0px)) calc(.6rem + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));gap:.6rem}.mbar .btn{flex:1;justify-content:center;padding:.7rem .8rem;font-size:.92rem}body{padding-bottom:76px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 :focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.cookie{position:fixed;z-index:20;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 30px rgba(31,35,64,.18);padding:1rem 1.1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.cookie p{margin:0;flex:1 1 240px;font-size:.92rem}
+.cookie div{display:flex;gap:.5rem}
+.cookie .btn{padding:.5rem 1rem;font-size:.9rem}
+@media(max-width:820px){.cookie{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 """
 
 NAV_JS = """
@@ -359,7 +366,10 @@ def footer():
 <div class="legal"><span>&copy; {datetime.date.today().year} Landlord Care, {ADDRESS['street']}, {ADDRESS['locality']} {ADDRESS['postal']}, Malta. All properties hold a Malta Tourism Authority holiday licence.</span><span><a href="{BOOK_BASE}/terms?lang=en" rel="noopener">Terms</a> &middot; <a href="{BOOK_BASE}/privacy?lang=en" rel="noopener">Privacy</a></span></div>
 </div></footer>
 <div class="mbar"><a class="btn btn-wa" href="{WA_URL}" rel="noopener">{WA_ICON} WhatsApp</a><a class="btn btn-primary" href="{BOOK_BASE}/?lang=en" rel="noopener">Book direct</a></div>
-{NAV_JS}"""
+{NAV_JS}<div class="cookie" id="cookie" hidden><p>We use analytics cookies to understand how guests find us. No advertising cookies.</p><div><button class="btn btn-outline" data-c="denied">Reject</button><button class="btn btn-primary" data-c="granted">Accept</button></div></div>
+<script>(function(){{var b=document.getElementById('cookie'),c=null;try{{c=localStorage.getItem('ms_consent')}}catch(e){{}}if(!c)b.hidden=false;b.querySelectorAll('button').forEach(function(x){{x.addEventListener('click',function(){{var v=x.dataset.c;try{{localStorage.setItem('ms_consent',v)}}catch(e){{}}gtag('consent','update',{{analytics_storage:v}});b.hidden=true}})}});
+document.addEventListener('click',function(e){{var a=e.target.closest('a');if(!a)return;var h=a.href||'';if(h.indexOf('bookingsboom.com')>-1||h.indexOf('book.maltesestays.com')>-1)gtag('event','begin_booking',{{link_url:h}});else if(h.indexOf('wa.me')>-1)gtag('event','whatsapp_click',{{link_url:h}});else if(h.indexOf('mailto:')===0)gtag('event','email_click')}})}})();</script>
+"""
 
 def page(path, title, meta, body, schema=None, og_image=None, active="", extra_head=""):
     schema_tag = f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>' if schema else ""
@@ -376,6 +386,11 @@ def page(path, title, meta, body, schema=None, og_image=None, active="", extra_h
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2332375D'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Inter,Arial' font-weight='700' font-size='24' fill='white'%3EMS%3C/text%3E%3C/svg%3E">
 {extra_head}
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}
+var _c=null;try{{_c=localStorage.getItem('ms_consent')}}catch(e){{}}
+gtag('consent','default',{{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:_c==='granted'?'granted':'denied',wait_for_update:500}});
+gtag('js',new Date());gtag('config','{GA_ID}');</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
 <style>{CSS}</style>
 {schema_tag}"""
     inner = f"{nav(active)}<main>{body}</main>{footer()}"
