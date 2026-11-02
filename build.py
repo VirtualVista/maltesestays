@@ -269,8 +269,8 @@ def _pick(pref_id, idx_fallback):
         if l["id"] == pref_id and l["pics"]:
             return l["pics"][0]
     return LISTINGS[min(idx_fallback, len(LISTINGS) - 1)]["pics"][0]
-ARCH_SVG = '<svg class="mark" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 60V30a22 22 0 0 1 44 0v30z" fill="var(--navy)"/><path d="M19 60V31a13 13 0 0 1 26 0v29z" fill="var(--bg)"/><path d="M19 47h26v13H19z" fill="var(--blue)"/><path d="M19 47c4.3 2.6 8.7 2.6 13 0s8.7-2.6 13 0v2.6c-4.3-2.6-8.7-2.6-13 0s-8.7 2.6-13 0z" fill="var(--bg)"/><path d="M28.5 6h7l-1.2 9h-4.6z" fill="#B9D85A"/></svg>'
-FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M10 60V30a22 22 0 0 1 44 0v30z' fill='%2332375D'/%3E%3Cpath d='M19 60V31a13 13 0 0 1 26 0v29z' fill='%23F6F3EC'/%3E%3Cpath d='M19 47h26v13H19z' fill='%23275FB5'/%3E%3C/svg%3E"
+LOGO_SVG = '<svg class="mark" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect x="9" y="7" width="46" height="6" rx="2" fill="var(--navy)"/><rect x="12" y="13" width="40" height="33" rx="1.5" fill="var(--navy)"/><rect x="16.5" y="17" width="8" height="25" rx="1.5" fill="var(--bg)"/><rect x="28" y="17" width="8" height="25" rx="1.5" fill="var(--bg)"/><rect x="39.5" y="17" width="8" height="25" rx="1.5" fill="var(--bg)"/><rect x="16.5" y="29" width="31" height="2.5" fill="var(--navy)"/><rect x="9" y="46" width="46" height="5" rx="1.5" fill="var(--blue)"/><path d="M15 51h9l-3.5 8h-2z" fill="var(--navy)"/><path d="M40 51h9l-3.5 8h-2z" fill="var(--navy)"/></svg>'
+FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='9' y='7' width='46' height='6' rx='2' fill='%2332375D'/%3E%3Crect x='12' y='13' width='40' height='33' fill='%2332375D'/%3E%3Crect x='17' y='17' width='9' height='25' fill='%23F6F3EC'/%3E%3Crect x='38' y='17' width='9' height='25' fill='%23F6F3EC'/%3E%3Crect x='9' y='46' width='46' height='6' fill='%23275FB5'/%3E%3Cpath d='M15 52h9l-3.5 7h-2zM40 52h9l-3.5 7h-2z' fill='%2332375D'/%3E%3C/svg%3E"
 HERO_PIC = _pick(21762, 0)    # Rabat rooftop pool
 HERO_PIC2 = _pick(22404, 1)
 MOSAIC = [_pick(22404, 1), _pick(21750, 2), _pick(26837, 3)]   # Ta' Xbiex terrace
@@ -372,6 +372,8 @@ nav.main .btn{padding:.55rem 1rem;font-size:.9rem}
 .hero .eyebrow{color:#cfe0ff}
 .hero-home .mosaic{display:none}
 @media (min-width:1100px){.hero-home .mosaic{display:grid;position:absolute;right:max(16px,calc((100vw - var(--maxw))/2));top:50%;transform:translateY(-50%);width:min(36vw,470px);grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;aspect-ratio:1;z-index:1}.hero-home .mosaic img{position:static;opacity:1;width:100%;height:100%;object-fit:cover;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35)}.hero-home .mosaic img:first-child{grid-row:span 2}.hero-home .wrap{margin-left:max(16px,calc((100vw - var(--maxw))/2));max-width:min(600px,52vw)}}
+.hero .credit{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:.5rem;font-size:.7rem;color:#dfe5f2;opacity:.85}.hero .credit a{color:inherit}
+.credits{font-size:.78rem;color:var(--slate);margin-top:2rem}.credits a{color:inherit}
 .hero-small .wrap{padding-block:clamp(3rem,7vw,5rem) clamp(2rem,5vw,3.5rem)}
 /* sections */
 section{padding-block:clamp(2.5rem,6vw,4.5rem)}
@@ -547,7 +549,7 @@ def nav(active=""):
     items = [("properties", "All properties"), ("areas", "Areas"), ("guest-houses", "Guest houses"), ("guides", "Malta guides"), ("contact", "Contact")]
     links = "".join(f'<a href="{url(p)}"{" aria-current=\"page\"" if p == active else ""}>{t}</a>' for p, t in items)
     return f"""<header class="site"><div class="wrap">
-<a class="logo" href="{url('')}" aria-label="{BRAND} home">{ARCH_SVG}<span class="lt">{BRAND}<small>by Landlord Care</small></span></a>
+<a class="logo" href="{url('')}" aria-label="{BRAND} home">{LOGO_SVG}<span class="lt">{BRAND}<small>by Landlord Care</small></span></a>
 <button class="menu-btn" aria-expanded="false" aria-controls="mainnav">Menu</button>
 <nav class="main" id="mainnav" aria-label="Main">{links}<a class="btn btn-primary" href="{BOOK_BASE}/?lang=en" rel="noopener">Check availability</a></nav>
 </div></header>"""
@@ -627,6 +629,30 @@ def card(l):
 def cards(ls):
     return '<div class="grid">' + "".join(card(l) for l in ls) + "</div>"
 
+
+AREA_PHOTOS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "area-photos.json"), encoding="utf-8")) if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "area-photos.json")) else {}
+
+def area_img(a, w, h):
+    p = AREA_PHOTOS.get(a["slug"])
+    if not p:
+        return img(next(l for l in LISTINGS if l["area"] == a["slug"])["pics"][0], w, h)
+    if p.get("unsplash"):
+        return f"https://images.unsplash.com/{p['unsplash']}?w={w}&h={h}&fit=crop&auto=format&q=70"
+    import hashlib
+    n = p["commons"].replace(" ", "_"); m = hashlib.md5(n.encode("utf-8")).hexdigest()
+    from urllib.parse import quote
+    tw = 1920 if w > 1280 else 1280 if w > 640 else 640
+    return f"https://upload.wikimedia.org/wikipedia/commons/thumb/{m[0]}/{m[:2]}/{quote(n)}/{tw}px-{quote(n)}"
+
+def area_alt(a):
+    p = AREA_PHOTOS.get(a["slug"])
+    return p["alt"] if p else f"Holiday rentals in {a['name']}, Malta"
+
+def area_credit(a):
+    p = AREA_PHOTOS.get(a["slug"])
+    if not p: return ""
+    return f'Photo: <a href="{p["source"]}" rel="nofollow noopener" target="_blank">{esc(p["author"])}</a>, <a href="{p["licence_url"]}" rel="nofollow noopener" target="_blank">{esc(p["licence"])}</a>'
+
 # ---------- HOME ----------
 HOME_FAQ = [
     ("Why should I book direct instead of through Airbnb or Booking.com?", "Direct bookings skip the platform fees, so we can offer our lowest rate for the same dates. You also talk to the local team from the first message, not a call centre."),
@@ -641,7 +667,7 @@ def home():
     featured = [l for i in featured_ids for l in LISTINGS if l["id"] == i][:9]
     if len(featured) < 6:
         featured += [l for l in LISTINGS if l not in featured and l["type"] == "home"][: 9 - len(featured)]
-    areas = "".join(f"""<a class="area" href="{url('areas/'+a['slug'])}"><img src="{img(next(l for l in LISTINGS if l['area']==a['slug'])['pics'][0], 520, 416)}" alt="Holiday rentals in {esc(a['name'])}, Malta" loading="lazy" width="520" height="416"><div><strong>{esc(a['name'])}</strong><small>{esc(a['short'])} &middot; {sum(1 for l in LISTINGS if l['area']==a['slug'])} stays</small></div></a>""" for a in AREAS if any(l['area']==a['slug'] for l in LISTINGS))
+    areas = "".join(f"""<a class="area" href="{url('areas/'+a['slug'])}"><img src="{area_img(a, 520, 416)}" alt="{esc(area_alt(a))}" loading="lazy" width="520" height="416"><div><strong>{esc(a['name'])}</strong><small>{esc(a['short'])} &middot; {sum(1 for l in LISTINGS if l['area']==a['slug'])} stays</small></div></a>""" for a in AREAS if any(l['area']==a['slug'] for l in LISTINGS))
     body = f"""
 <div class="hero hero-home"><img src="{img(HERO_PIC, 1800, 1000)}" alt="" width="1800" height="1000" fetchpriority="high">
 <div class="mosaic" aria-hidden="true">{''.join(f'<img src="{img(p, 700, 700)}" alt="" width="700" height="700" loading="lazy">' for p in MOSAIC)}</div>
@@ -810,8 +836,8 @@ def areas_index():
         ls = [l for l in LISTINGS if l["area"] == a["slug"]]
         if not ls:
             continue
-        items += f"""<a class="area" href="{url('areas/'+a['slug'])}"><img src="{img(ls[0]['pics'][0], 520, 416)}" alt="Holiday rentals in {esc(a['name'])}, Malta" loading="lazy" width="520" height="416"><div><strong>{esc(a['name'])}</strong><small>{esc(a['short'])} &middot; {len(ls)} stays</small></div></a>"""
-    body = f"""<section><div class="wrap">{crumb_html}<div class="eyebrow">Where to stay in Malta</div><h1>Areas we cover</h1><p style="font-size:1.1rem">Malta is small, but each town has a different feel. Here is where our homes are and who each area suits.</p><div class="areas" style="margin-top:1.5rem">{items}</div></div></section>"""
+        items += f"""<a class="area" href="{url('areas/'+a['slug'])}"><img src="{area_img(a, 520, 416)}" alt="{esc(area_alt(a))}" loading="lazy" width="520" height="416"><div><strong>{esc(a['name'])}</strong><small>{esc(a['short'])} &middot; {len(ls)} stays</small></div></a>"""
+    body = f"""<section><div class="wrap">{crumb_html}<div class="eyebrow">Where to stay in Malta</div><h1>Areas we cover</h1><p style="font-size:1.1rem">Malta is small, but each town has a different feel. Here is where our homes are and who each area suits.</p><div class="areas" style="margin-top:1.5rem">{items}</div><p class="credits">Area photos: {'; '.join(f"{esc(a['name'])}: {area_credit(a).replace('Photo: ','')}" for a in AREAS if area_credit(a))}.</p></div></section>"""
     write("areas", page("areas", "Where to stay in Malta: areas and neighbourhoods | Maltese Stays", "Valletta, Sliema, St Julian's, the Three Cities, Msida and Pietà, St Paul's Bay, Marsaskala, Rabat and Mdina. Which area of Malta suits you, with licensed holiday homes in each.", body, {"@context": "https://schema.org", "@graph": [crumb_ld]}, active="areas"))
 
 def area_page(a):
@@ -826,13 +852,13 @@ def area_page(a):
     gh = ""
     if groups_here:
         gh = "<h2 style='font-size:1.5rem'>Guest houses in this area</h2><ul class='check'>" + "".join(f'<li><a href="{url("guest-houses/"+g["slug"])}">{esc(g["name"])}</a></li>' for g in groups_here) + "</ul>"
-    body = f"""<div class="hero hero-small"><img src="{img(ls[0]['pics'][0], 1800, 800)}" alt="" width="1800" height="800"><div class="wrap"><div class="eyebrow">{esc(a['short'])}</div><h1>{esc(a['h1'])}</h1><p>{len(ls)} licensed {'stay' if len(ls)==1 else 'stays'} in {esc(a['name'])}, managed by our local team. Book direct for the best price.</p></div></div>
+    body = f"""<div class="hero hero-small"><img src="{area_img(a, 1800, 800)}" alt="{esc(area_alt(a))}" width="1800" height="800" fetchpriority="high"><div class="wrap"><div class="eyebrow">{esc(a['short'])}</div><h1>{esc(a['h1'])}</h1><p>{len(ls)} licensed {'stay' if len(ls)==1 else 'stays'} in {esc(a['name'])}, managed by our local team. Book direct for the best price.</p></div>{f'<div class="credit">{area_credit(a)}</div>' if area_credit(a) else ''}</div>
 <section><div class="wrap">{crumb_html}<div class="two"><div><h2>About {esc(a['name'])}</h2><p style="font-size:1.08rem">{esc(a['intro'])}</p></div>
 <div><h3>Why stay here</h3><ul class="check">{why}</ul><h3>Our tips</h3><ul class="check">{tips}</ul>{gh}</div></div></div></section>
 <section class="alt"><div class="wrap"><div class="sec-head"><h2>Our stays in {esc(a['name'])}</h2><a href="{url('properties')}">All properties &rarr;</a></div>{cards(ls)}</div></section>
 <section><div class="wrap"><h2>Questions about {esc(a['name'])}</h2>{faq_html(a['faq'])}</div></section>"""
     schema = {"@context": "https://schema.org", "@graph": [crumb_ld, faq_schema(a["faq"]), {"@type": "ItemList", "name": f"Holiday rentals in {a['name']}", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": canon("properties/" + l["slug"]), "name": l["name"]} for i, l in enumerate(ls)]}]}
-    write("areas/" + a["slug"], page("areas/" + a["slug"], f"{a['h1']} | Book direct", a["meta"], body, schema, og_image=img(ls[0]["pics"][0], 1200, 630), active="areas"))
+    write("areas/" + a["slug"], page("areas/" + a["slug"], f"{a['h1']} | Book direct", a["meta"], body, schema, og_image=area_img(a, 1200, 630), active="areas"))
 
 # ---------- GUEST HOUSES ----------
 def guest_houses():
