@@ -641,7 +641,7 @@ def area_img(a, w, h):
     import hashlib
     n = p["commons"].replace(" ", "_"); m = hashlib.md5(n.encode("utf-8")).hexdigest()
     from urllib.parse import quote
-    tw = 1920 if w > 1280 else 1280 if w > 640 else 640
+    tw = 1920 if w > 1280 else 1280 if w > 960 else 960
     return f"https://upload.wikimedia.org/wikipedia/commons/thumb/{m[0]}/{m[:2]}/{quote(n)}/{tw}px-{quote(n)}"
 
 def area_alt(a):
