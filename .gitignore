@@ -2,3 +2,4 @@ dist/
 preview/
 __pycache__/
 *.zip
+changed-urls.json

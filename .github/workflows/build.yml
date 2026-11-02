@@ -2,7 +2,7 @@ name: Build and publish maltesestays.com
 
 on:
   schedule:
-    - cron: "17 4 * * *"      # every day at 04:17 UTC: picks up new or removed Boom listings
+    - cron: "17 4 * * *"      # every day at 04:17 UTC: picks up new or removed Boom listings, prices and reviews
   push:
     branches: [main]
   workflow_dispatch:          # "Run workflow" button in the Actions tab
@@ -16,6 +16,9 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  INDEXNOW_KEY: 1aa0a81e4d978df24b85e86efec47d34
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,15 +29,23 @@ jobs:
           python-version: "3.12"
       - name: Generate site from Boom
         run: python3 build.py
-      - name: Save Boom snapshot and details cache
+      - name: Work out which pages changed (for IndexNow)
+        run: python3 indexnow.py
+      - name: Save Boom snapshot, details cache and page hashes
         run: |
           git config user.name "stay-bot"
           git config user.email "bot@landlord.care"
-          git add data/boom-snapshot.json data/boom-details.json || true
+          git add data/boom-snapshot.json data/boom-details.json data/page-hashes.json || true
           git diff --cached --quiet || git commit -m "Boom snapshot $(date -u +%F)" && git push || true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: changed-urls
+          path: changed-urls.json
+          retention-days: 3
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -44,3 +55,30 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: changed-urls
+      - name: Tell Bing, ChatGPT search, Copilot and other engines what changed (IndexNow)
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          urls = json.load(open("changed-urls.json"))
+          if not urls:
+              print("No changed pages, nothing to submit")
+              raise SystemExit(0)
+          key = os.environ["INDEXNOW_KEY"]
+          body = json.dumps({"host": "maltesestays.com", "key": key,
+                             "keyLocation": f"https://maltesestays.com/{key}.txt", "urlList": urls}).encode()
+          req = urllib.request.Request("https://api.indexnow.org/indexnow", data=body,
+                                       headers={"Content-Type": "application/json; charset=utf-8"})
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  print("IndexNow status", r.status, "for", len(urls), "URLs")
+          except Exception as e:
+              print("IndexNow submit failed (site is still published):", e)
+          PY
