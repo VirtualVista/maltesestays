@@ -936,6 +936,7 @@ def extras():
     llms += f"\n## Other\n- [Why book direct]({canon('book-direct')})\n- [About]({canon('about')})\n- [Contact]({canon('contact')})\n- Owners: property management at {OWNER_SITE}\n"
     open(os.path.join(OUT, "llms.txt"), "w", encoding="utf-8").write(llms)
     if not PREVIEW:
+        open(os.path.join(OUT, "googlea814f4bcb5ad0a14.html"), "w").write("google-site-verification: googlea814f4bcb5ad0a14.html")
         open(os.path.join(OUT, "CNAME"), "w").write(SITE.replace("https://", "") + "\n")
         open(os.path.join(OUT, ".nojekyll"), "w").write("")
 
