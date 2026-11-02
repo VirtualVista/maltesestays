@@ -26,11 +26,11 @@ jobs:
           python-version: "3.12"
       - name: Generate site from Boom
         run: python3 build.py
-      - name: Save Boom snapshot (so changes are visible in the repo history)
+      - name: Save Boom snapshot and details cache
         run: |
           git config user.name "stay-bot"
           git config user.email "bot@landlord.care"
-          git add data/boom-snapshot.json || true
+          git add data/boom-snapshot.json data/boom-details.json || true
           git diff --cached --quiet || git commit -m "Boom snapshot $(date -u +%F)" && git push || true
       - uses: actions/upload-pages-artifact@v3
         with:

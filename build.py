@@ -30,6 +30,7 @@ def load(n):
 CURATED = load("listings.json")      # hand-written copy, keyed by Boom listing id
 AREAS = load("areas.json")
 GROUPS = load("groups.json")
+GUIDES = load("guides.json")
 AREA_BY = {a["slug"]: a for a in AREAS}
 GROUP_BY = {g["slug"]: g for g in GROUPS}
 AREA_CENTROIDS = {"valletta": (35.899, 14.513), "sliema": (35.911, 14.502), "st-julians": (35.917, 14.489),
@@ -91,7 +92,7 @@ def auto_listing(b):
     area = area_for(b.get("city_name"), lat, lng)
     return {"id": b["id"], "slug": slugify(f"{city} {title}"), "name": title, "area": area, "locality": city, "type": "room" if is_room else "home",
             "kind": kind, "beds": b.get("beds") or 1, "baths": b.get("baths") or 1, "acc": b.get("accommodates") or 2, "lat": lat, "lng": lng,
-            "score": b.get("airbnb_score"), "pics": [p for p in (short_pic(x.get("original", "")) for x in b.get("pictures", [])) if p][:8],
+            "score": b.get("airbnb_score"), "pics": [p for p in (short_pic(x.get("original", "")) for x in b.get("pictures", [])) if p][:30],
             "intro": clean_text(mc.get("summary") or f"{kind} in {city}, Malta, managed by Landlord Care."),
             "highlights": bullets, "sleeps": f"Sleeps up to {b.get('accommodates') or 2} guests in {b.get('beds') or 1} bedroom{'s' if (b.get('beds') or 1) > 1 else ''}.",
             "nearby": clean_text(mc.get("notes") or "", 300) or f"Well placed in {city} for exploring Malta. See the area guide for what is nearby.",
@@ -104,6 +105,109 @@ def fetch_boom():
     with urllib.request.urlopen(req, timeout=40) as r:
         data = json.load(r)
     return data["listings"]
+
+AMENITY_MAP = {
+    "wireless": ("Fast Wi-Fi", "Comfort"), "internet": ("Fast Wi-Fi", "Comfort"),
+    "air conditioning": ("Air conditioning", "Comfort"), "heating": ("Heating", "Comfort"), "central heating": ("Heating", "Comfort"),
+    "washing machine": ("Washing machine", "Comfort"), "dryer": ("Tumble dryer", "Comfort"), "tumble dryer": ("Tumble dryer", "Comfort"),
+    "hair dryer": ("Hair dryer", "Comfort"), "iron": ("Iron and board", "Comfort"), "iron & ironing board": ("Iron and board", "Comfort"),
+    "linens": ("Bed linen and towels", "Comfort"), "bed linen & towels": ("Bed linen and towels", "Comfort"), "towels": ("Bed linen and towels", "Comfort"),
+    "toiletries": ("Toiletries", "Comfort"), "complimentary soap/shampoo/conditioner": ("Toiletries", "Comfort"),
+    "room darkening shades": ("Blackout blinds", "Comfort"), "laptop friendly workspace": ("Workspace", "Comfort"), "desk": ("Workspace", "Comfort"),
+    "tv": ("TV", "Comfort"), "smart tv": ("Smart TV", "Comfort"), "cable tv": ("TV", "Comfort"), "elevator": ("Lift", "Comfort"),
+    "private entrance": ("Private entrance", "Comfort"), "separate entry": ("Private entrance", "Comfort"),
+    "long term stays": ("Long stays welcome", "Comfort"), "luggage dropoff allowed": ("Luggage drop-off", "Comfort"),
+    "exercise equipment": ("Exercise equipment", "Comfort"),
+    "kitchen": ("Kitchen", "Kitchen"), "dishwasher": ("Dishwasher", "Kitchen"), "microwave": ("Microwave", "Kitchen"), "oven": ("Oven", "Kitchen"),
+    "cooking hob with an oven": ("Oven", "Kitchen"), "coffee/tea maker": ("Coffee maker", "Kitchen"), "electric kettle": ("Kettle", "Kitchen"),
+    "kettle": ("Kettle", "Kitchen"), "toaster": ("Toaster", "Kitchen"), "refrigerator": ("Fridge", "Kitchen"), "fridge / freezer": ("Fridge", "Kitchen"),
+    "mini fridge": ("Mini fridge", "Kitchen"), "mini refrigerator": ("Mini fridge", "Kitchen"), "wine glasses": ("Wine glasses", "Kitchen"),
+    "dining table": ("Dining table", "Kitchen"),
+    "swimming pool": ("Pool", "Outdoors"), "balcony": ("Balcony", "Outdoors"), "garden or backyard": ("Garden or yard", "Outdoors"),
+    "outdoor grill": ("BBQ", "Outdoors"), "barbeque utensils": ("BBQ", "Outdoors"), "outdoor furniture": ("Outdoor seating", "Outdoors"),
+    "outdoor seating": ("Outdoor seating", "Outdoors"), "fireplace": ("Fireplace", "Outdoors"), "fire pit": ("Fire pit", "Outdoors"),
+    "free parking": ("Free parking", "Outdoors"), "street parking": ("Street parking", "Outdoors"),
+    "baby crib": ("Baby cot", "Family and safety"), "baby bed": ("Baby cot", "Family and safety"), "tub": ("Bathtub", "Family and safety"),
+    "suitable for children": ("Child friendly", "Family and safety"), "first aid kit": ("First aid kit", "Family and safety"),
+    "fire extinguisher": ("Fire extinguisher", "Family and safety"), "smoke detector": ("Smoke detector", "Family and safety"),
+    "smoke detectors": ("Smoke detector", "Family and safety"),
+}
+AMENITY_GROUPS = ["Comfort", "Kitchen", "Outdoors", "Family and safety"]
+
+def clean_amenities(raw):
+    out = {g: [] for g in AMENITY_GROUPS}
+    seen = set()
+    for a in raw or []:
+        m = AMENITY_MAP.get(str(a).strip().lower())
+        if m and m[0] not in seen:
+            seen.add(m[0]); out[m[1]].append(m[0])
+    if "Smart TV" in seen and "TV" in seen:
+        out["Comfort"].remove("TV")
+    return {g: v for g, v in out.items() if v}
+
+def _norm_score(x):
+    try:
+        x = float(x)
+    except (TypeError, ValueError):
+        return None
+    if x > 10:
+        x = x / 2
+    return max(0.0, min(10.0, x))
+
+def _is_english(t):
+    t = " " + t.lower() + " "
+    return sum(t.count(w) for w in (" the ", " and ", " was ", " we ", " very ", " great ", " place ", " stay ")) >= 2
+
+def summarise_details(L, reviews):
+    import re
+    today = datetime.date.today().isoformat()
+    lim = (datetime.date.today() + datetime.timedelta(days=120)).isoformat()
+    prices = [x.get("price") for k, x in (L.get("days_rates") or {}).items()
+              if today <= k <= lim and x.get("status") != "booked" and (x.get("price") or 0) > 0]
+    scores = [s for s in (_norm_score(r.get("normilized_scrore_overall")) for r in reviews) if s is not None]
+    picks = []
+    for r in reviews:
+        t = re.sub(r"\s+", " ", (r.get("public") or "")).strip()
+        sc = _norm_score(r.get("normilized_scrore_overall"))
+        if len(t) < 40 or sc is None or sc < 9 or re.search(r"did not like|negative:", t, re.I):
+            continue
+        t = re.sub(r"^(I liked:|Positive:)\s*", "", t)
+        if len(t) > 300:
+            t = t[:300].rsplit(" ", 1)[0].rstrip(",;:") + "\u2026"
+        name = re.sub(r"[\u2066-\u2069\u200e\u200f]", "", r.get("fullName") or "Guest").strip() or "Guest"
+        picks.append({"n": name, "d": (r.get("created_at") or "")[:10], "s": r.get("source") or "", "r": round(sc, 1), "t": t, "en": _is_english(t)})
+    picks.sort(key=lambda p: (p["en"], p["d"]), reverse=True)
+    return {"amen": L.get("amenities") or [], "ci": L.get("check_in_time"), "co": L.get("check_out_time"),
+            "minN": L.get("min_nights"), "from": min(prices) if prices else None,
+            "nrev": len(scores), "avg10": round(sum(scores) / len(scores), 2) if scores else None, "revs": picks[:6]}
+
+def fetch_details(ids):
+    import urllib.request
+    cache_fp = os.path.join(ROOT, "data", "boom-details.json")
+    try:
+        cache = json.load(open(cache_fp, encoding="utf-8"))
+    except Exception:
+        cache = {}
+    out, ok = {}, 0
+    for i in ids:
+        try:
+            def get(path):
+                req = urllib.request.Request(f"{BOOK_BASE}{path}", headers={"Referer": BOOK_BASE + "/", "User-Agent": "Mozilla/5.0 (maltesestays.com build)", "Accept": "application/json"})
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    return json.load(r)
+            d = get(f"/api/booking/listings/{i}?language=en")
+            rv = get(f"/api/booking/reviews?listing_id={i}&language=en")
+            out[str(i)] = summarise_details(d.get("listing", d), rv.get("reviews", []) if isinstance(rv, dict) else rv)
+            ok += 1
+        except Exception as e:
+            if str(i) in cache:
+                out[str(i)] = cache[str(i)]
+    print(f"Boom details: {ok}/{len(ids)} fetched live, {len(out) - ok} from cache")
+    if ok:
+        merged = dict(cache); merged.update(out)
+        with open(cache_fp, "w", encoding="utf-8") as f:
+            json.dump(merged, f, ensure_ascii=False, indent=0)
+    return out
 
 def merge_listings():
     cur = {c["id"]: c for c in CURATED}
@@ -122,7 +226,7 @@ def merge_listings():
             for k_b, k_c in (("accommodates", "acc"), ("airbnb_score", "score")):
                 if b.get(k_b) is not None:
                     c[k_c] = b[k_b]
-            pics = [p for p in (short_pic(x.get("original", "")) for x in b.get("pictures", [])) if p][:8]
+            pics = [p for p in (short_pic(x.get("original", "")) for x in b.get("pictures", [])) if p][:30]
             if pics:
                 c["pics"] = pics
             out.append(c)
@@ -142,8 +246,22 @@ def merge_listings():
     return out
 
 LISTINGS = merge_listings()
+_DET = fetch_details([l["id"] for l in LISTINGS])
 for l in LISTINGS:
     l["area_name"] = AREA_BY[l["area"]]["name"]
+    l["det"] = _DET.get(str(l["id"]), {})
+
+def rating(l):
+    d = l.get("det") or {}
+    if d.get("avg10") and d.get("nrev"):
+        return round(d["avg10"] / 2, 2), d["nrev"]
+    return None, 0
+
+def price_from(l):
+    return (l.get("det") or {}).get("from")
+
+ALL_REVIEWS = sum(rating(l)[1] for l in LISTINGS)
+ALL_AVG5 = round(sum((rating(l)[0] or 0) * rating(l)[1] for l in LISTINGS) / ALL_REVIEWS, 2) if ALL_REVIEWS else None
 
 def _pick(pref_id, idx_fallback):
     for l in LISTINGS:
@@ -187,8 +305,11 @@ def write(path, content):
         f.write(content)
 
 def score_badge(l):
+    avg, n = rating(l)
+    if avg:
+        return f'<span class="score" title="Average of {n} guest reviews">&#9733; {avg:.1f} <em>({n})</em></span>'
     if l.get("score"):
-        return f'<span class="score" title="Guest rating on Airbnb">&#9733; {l["score"]:.2f}'.rstrip("0").rstrip(".") + "</span>"
+        return f'<span class="score" title="Guest rating on Airbnb">&#9733; {float(l["score"]):.1f}</span>'
     return '<span class="score new">New</span>'
 
 def fmt_baths(b):
@@ -331,6 +452,68 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
 @media(max-width:820px){.mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--bg2);border-top:1px solid var(--line);padding:.6rem max(16px,env(safe-area-inset-right,0px)) calc(.6rem + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));gap:.6rem}.mbar .btn{flex:1;justify-content:center;padding:.7rem .8rem;font-size:.92rem}body{padding-bottom:76px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 :focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.score em{font-style:normal;font-weight:500;color:var(--slate)}
+.card .price{margin-top:.35rem;font-size:.95rem;color:var(--ink)}
+.card .price b{font-size:1.05rem}
+.h-sec{font-size:1.5rem;margin-top:2.2rem}
+.lead{font-size:1.1rem}
+.small{font-size:.88rem;color:var(--slate)}
+.rating-link{text-decoration:none;color:inherit;display:inline-flex;gap:.4rem;align-items:center}
+.rating-link span:last-child{text-decoration:underline;color:var(--slate)}
+.gallery-wrap{position:relative}
+.gallery a{cursor:zoom-in}
+.gal-all{position:absolute;right:.8rem;bottom:.8rem;background:var(--bg2);border-color:var(--ink);color:var(--ink);padding:.5rem 1rem;font-size:.9rem}
+@media(max-width:700px){.gal-all{right:.5rem;bottom:.5rem}}
+.amen{display:grid;gap:1.2rem 2rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:.6rem}
+.amen h3{font-family:var(--body);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.5rem}
+.amen ul{list-style:none;padding:0;margin:0;display:grid;gap:.35rem}
+.amen li{padding-left:1.4rem;position:relative}
+.amen li::before{content:"\2713";position:absolute;left:0;color:var(--blue);font-weight:700}
+.facts{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.facts div{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;display:flex;flex-direction:column;gap:.15rem}
+.facts b{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--slate)}
+.rev-sum{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem}
+.rev-sum .big{font-family:var(--display);font-size:2.2rem;color:var(--navy);font-weight:600}
+.revs{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.rev{margin:0;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.rev-top{display:flex;justify-content:space-between;font-size:.85rem}
+.rev .stars{font-weight:600;color:var(--navy)}
+.rev .src{color:var(--slate)}
+.rev blockquote{margin:0;font-size:.95rem;line-height:1.55;overflow-wrap:anywhere}
+.rev figcaption{font-size:.85rem;color:var(--slate);margin-top:auto}
+.map{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;max-width:100%;background:var(--mist)}
+.map iframe{width:100%;height:100%;border:0;display:block}
+.bb-price{font-family:var(--display);color:var(--navy);font-size:1.15rem}
+.bb-price b{font-size:1.8rem}
+.bb-price span{font-family:var(--body);font-size:.95rem;color:var(--slate)}
+.mb-price{display:flex;flex-direction:column;justify-content:center;line-height:1.15;font-size:.8rem;color:var(--slate);flex:0 0 auto}
+.mb-price b{font-size:1.15rem;color:var(--ink)}
+.mb-price span{font-size:.75rem}
+.lightbox{width:min(1100px,100vw);max-width:100vw;height:100vh;max-height:100vh;margin:0 auto;padding:0;border:0;background:var(--bg)}
+.lightbox::backdrop{background:rgba(10,12,25,.85)}
+.lb-bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:.8rem max(16px,env(safe-area-inset-left,0px));background:var(--bg);border-bottom:1px solid var(--line);z-index:1}
+.lb-close{font:inherit;font-weight:600;background:none;border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;color:var(--ink);cursor:pointer}
+.lb-body{display:grid;gap:.6rem;padding:.6rem max(16px,env(safe-area-inset-left,0px)) 2rem}
+.lb-body img{width:100%;height:auto;border-radius:8px;scroll-margin-top:70px}
+.search{margin-top:1.8rem;background:var(--bg2);border-radius:var(--radius);padding:.6rem;display:grid;gap:.5rem;grid-template-columns:1fr 1fr .8fr auto;max-width:760px;box-shadow:0 20px 50px rgba(10,12,25,.35)}
+.search label{display:flex;flex-direction:column;padding:.35rem .7rem;border-radius:10px;color:var(--slate);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;min-width:0}
+.search input,.search select{border:0;background:transparent;font:inherit;font-size:1rem;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:500;padding:.2rem 0;width:100%;min-width:0}
+.search label:focus-within{background:var(--stone)}
+.search .btn{align-self:stretch;justify-content:center}
+@media(max-width:700px){.search{grid-template-columns:1fr 1fr}.search .btn{grid-column:1/-1}}
+.trust{background:var(--navy);color:#e9edf5}
+.trust .wrap{display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;justify-content:center;padding-block:1rem;font-size:.95rem}
+.trust b{color:#fff}
+.article{max-width:760px}
+.article h2{font-size:1.6rem;margin-top:2.2rem}
+.article p,.article li{font-size:1.05rem;line-height:1.7}
+.article .tldr{background:var(--stone);border-radius:var(--radius);padding:1.1rem 1.3rem;margin:1.2rem 0}
+.article .tldr p{margin:0}
+.article table{border-collapse:collapse;width:100%;font-size:.95rem}
+.article th,.article td{border-bottom:1px solid var(--line);text-align:left;padding:.55rem .6rem;vertical-align:top}
+.tbl{overflow-x:auto;margin:1rem 0}
+.guide-cards{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+
 .cookie{position:fixed;z-index:20;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 30px rgba(31,35,64,.18);padding:1rem 1.1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
 .cookie p{margin:0;flex:1 1 240px;font-size:.92rem}
 .cookie div{display:flex;gap:.5rem}
@@ -347,7 +530,7 @@ NAV_JS = """
 WA_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.5 0 .2 5.3.2 11.8c0 2.1.5 4.1 1.6 5.9L0 24l6.5-1.7a11.8 11.8 0 0 0 5.6 1.4c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.4-8.4zM12 21.7c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.8 9.8 0 0 1-1.5-5.2C2.1 6.4 6.5 2 12 2c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.9-9.8 9.9zm5.4-7.3c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>'
 
 def nav(active=""):
-    items = [("properties", "All properties"), ("areas", "Areas"), ("guest-houses", "Guest houses"), ("book-direct", "Why book direct"), ("contact", "Contact")]
+    items = [("properties", "All properties"), ("areas", "Areas"), ("guest-houses", "Guest houses"), ("guides", "Malta guides"), ("contact", "Contact")]
     links = "".join(f'<a href="{url(p)}"{" aria-current=\"page\"" if p == active else ""}>{t}</a>' for p, t in items)
     return f"""<header class="site"><div class="wrap">
 <a class="logo" href="{url('')}" aria-label="{BRAND} home"><span>MS</span>{BRAND}<small style="font-family:var(--body);font-weight:500;font-size:.7rem;color:var(--slate);margin-left:.4rem">by Landlord Care</small></a>
@@ -355,23 +538,23 @@ def nav(active=""):
 <nav class="main" id="mainnav" aria-label="Main">{links}<a class="btn btn-primary" href="{BOOK_BASE}/?lang=en" rel="noopener">Check availability</a></nav>
 </div></header>"""
 
-def footer():
+def footer(mbar=None):
     area_links = "".join(f'<li><a href="{url("areas/"+a["slug"])}">{esc(a["name"])}</a></li>' for a in AREAS)
     return f"""<footer><div class="wrap">
 <div><h4>{BRAND}</h4><p style="font-size:.95rem;color:#dfe4f3">Licensed holiday homes and rooms across Malta, managed by a local team. Book direct for the best price.</p>
 <p style="font-size:.9rem"><a href="{WA_URL}" rel="noopener">WhatsApp {PHONE_DISPLAY}</a><br><a href="mailto:{EMAIL}">{EMAIL}</a></p></div>
 <div><h4>Areas</h4><ul>{area_links}</ul></div>
-<div><h4>Stays</h4><ul><li><a href="{url('properties')}">All properties</a></li><li><a href="{url('guest-houses')}">Guest houses</a></li><li><a href="{url('book-direct')}">Why book direct</a></li><li><a href="{url('about')}">About us</a></li><li><a href="{url('contact')}">Contact</a></li></ul></div>
+<div><h4>Stays</h4><ul><li><a href="{url('properties')}">All properties</a></li><li><a href="{url('guest-houses')}">Guest houses</a></li><li><a href="{url('book-direct')}">Why book direct</a></li><li><a href="{url('guides')}">Malta guides</a></li><li><a href="{url('about')}">About us</a></li><li><a href="{url('contact')}">Contact</a></li></ul></div>
 <div><h4>Owners</h4><ul><li><a href="{OWNER_SITE}" rel="noopener">Property management in Malta</a></li><li><a href="{OWNER_SITE}/guaranteed-rent" rel="noopener">Guaranteed rent</a></li></ul></div>
 <div class="legal"><span>&copy; {datetime.date.today().year} Landlord Care, {ADDRESS['street']}, {ADDRESS['locality']} {ADDRESS['postal']}, Malta. All properties hold a Malta Tourism Authority holiday licence.</span><span><a href="{BOOK_BASE}/terms?lang=en" rel="noopener">Terms</a> &middot; <a href="{BOOK_BASE}/privacy?lang=en" rel="noopener">Privacy</a></span></div>
 </div></footer>
-<div class="mbar"><a class="btn btn-wa" href="{WA_URL}" rel="noopener">{WA_ICON} WhatsApp</a><a class="btn btn-primary" href="{BOOK_BASE}/?lang=en" rel="noopener">Book direct</a></div>
+{mbar or f'<div class="mbar"><a class="btn btn-wa" href="{WA_URL}" rel="noopener">{WA_ICON} WhatsApp</a><a class="btn btn-primary" href="{BOOK_BASE}/?lang=en" rel="noopener">Book direct</a></div>'}
 {NAV_JS}<div class="cookie" id="cookie" hidden><p>We use analytics cookies to understand how guests find us. No advertising cookies.</p><div><button class="btn btn-outline" data-c="denied">Reject</button><button class="btn btn-primary" data-c="granted">Accept</button></div></div>
 <script>(function(){{var b=document.getElementById('cookie'),c=null;try{{c=localStorage.getItem('ms_consent')}}catch(e){{}}if(!c)b.hidden=false;b.querySelectorAll('button').forEach(function(x){{x.addEventListener('click',function(){{var v=x.dataset.c;try{{localStorage.setItem('ms_consent',v)}}catch(e){{}}gtag('consent','update',{{analytics_storage:v}});b.hidden=true}})}});
 document.addEventListener('click',function(e){{var a=e.target.closest('a');if(!a)return;var h=a.href||'';if(h.indexOf('bookingsboom.com')>-1||h.indexOf('book.maltesestays.com')>-1)gtag('event','begin_booking',{{link_url:h}});else if(h.indexOf('wa.me')>-1)gtag('event','whatsapp_click',{{link_url:h}});else if(h.indexOf('mailto:')===0)gtag('event','email_click')}})}})();</script>
 """
 
-def page(path, title, meta, body, schema=None, og_image=None, active="", extra_head=""):
+def page(path, title, meta, body, schema=None, og_image=None, active="", extra_head="", mbar=None, og_type="website"):
     schema_tag = f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>' if schema else ""
     og = og_image or img(HERO_PIC, 1200, 630)
     head = f"""<meta charset="utf-8">
@@ -380,7 +563,7 @@ def page(path, title, meta, body, schema=None, og_image=None, active="", extra_h
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(meta)}">
 <link rel="canonical" href="{canon(path)}">
-<meta property="og:type" content="website"><meta property="og:site_name" content="{BRAND}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(meta)}"><meta property="og:url" content="{canon(path)}"><meta property="og:image" content="{og}"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{BRAND}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(meta)}"><meta property="og:url" content="{canon(path)}"><meta property="og:image" content="{og}"><meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
@@ -393,7 +576,7 @@ gtag('js',new Date());gtag('config','{GA_ID}');</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
 <style>{CSS}</style>
 {schema_tag}"""
-    inner = f"{nav(active)}<main>{body}</main>{footer()}"
+    inner = f"{nav(active)}<main>{body}</main>{footer(mbar)}"
     if PREVIEW and path == "":
         return head + inner
     return f"<!doctype html>\n<html lang=\"en\">\n<head>\n{head}\n</head>\n<body>\n{inner}\n</body>\n</html>"
@@ -424,7 +607,7 @@ def card(l):
 <div class="ph"><img src="{img(l['pics'][0], 640, 480)}" alt="{esc(l['name'])}, {esc(l['locality'])}, Malta" loading="lazy" width="640" height="480"></div>
 <div class="body"><span class="kind">{esc(l['kind'])}</span><h3>{esc(l['name'])}</h3>
 <div class="loc"><span>{esc(l['locality'])}</span>{score_badge(l)}</div>
-<div class="specs"><span>{l['acc']} guests</span><span>{l['beds']} bed{'s' if l['beds']>1 else ''}</span><span>{fmt_baths(l['baths'])} bath{'s' if float(l['baths'])>1 else ''}</span></div></div></a>"""
+<div class="specs"><span>{l['acc']} guests</span><span>{l['beds']} bed{'s' if l['beds']>1 else ''}</span><span>{fmt_baths(l['baths'])} bath{'s' if float(l['baths'])>1 else ''}</span></div>{f'<div class="price">From <b>&euro;{price_from(l)}</b> / night</div>' if price_from(l) else ''}</div></a>"""
 
 def cards(ls):
     return '<div class="grid">' + "".join(card(l) for l in ls) + "</div>"
@@ -449,7 +632,15 @@ def home():
 <div class="wrap"><div class="eyebrow">Licensed holiday homes in Malta</div>
 <h1>Stay in Malta. Book direct with the local team.</h1>
 <p>{len(LISTINGS)} apartments, townhouses, penthouses and guest house rooms in Valletta, Sliema, St Julian's, the Three Cities and beyond. Professionally managed, licensed, and cheaper when you book here than on Airbnb or Booking.com.</p>
-<div class="actions"><a class="btn btn-primary" href="{url('properties')}">See all properties</a><a class="btn btn-outline" style="border-color:#fff;color:#fff" href="{url('book-direct')}">Why book direct</a></div></div></div>
+<form class="search" action="{BOOK_BASE}/listings" method="get" id="search" aria-label="Check availability">
+<label>Check-in<input type="date" name="check_in" id="ci" required></label>
+<label>Check-out<input type="date" name="check_out" id="co" required></label>
+<label>Guests<select name="adults" id="ad">{''.join(f'<option value="{n}"{" selected" if n == 2 else ""}>{n} guest{"s" if n > 1 else ""}</option>' for n in range(1, 9))}</select></label>
+<input type="hidden" name="children" value="0"><input type="hidden" name="lang" value="en">
+<button class="btn btn-primary" type="submit">Search stays</button></form>
+<script>(function(){{var f=document.getElementById('search'),ci=document.getElementById('ci'),co=document.getElementById('co');function iso(d){{return d.toISOString().slice(0,10)}}var t=new Date();ci.min=iso(t);co.min=iso(new Date(t.getTime()+864e5));ci.addEventListener('change',function(){{var d=new Date(ci.value);d.setDate(d.getDate()+1);co.min=iso(d);if(!co.value||co.value<=ci.value)co.value=iso(d)}});f.addEventListener('submit',function(){{try{{gtag('event','begin_booking',{{link_url:'search',check_in:ci.value,check_out:co.value}})}}catch(e){{}}}})}})();</script>
+</div></div>
+{f'<div class="trust"><div class="wrap"><span>&#9733; <b>{ALL_AVG5:.1f}/5</b> from {ALL_REVIEWS:,} guest reviews</span><span><b>{len(LISTINGS)}</b> licensed homes and rooms</span><span>Local team on WhatsApp <b>24/7</b></span><span>No platform fees</span></div></div>' if ALL_REVIEWS else ''}
 
 <section><div class="wrap"><div class="sec-head"><div><div class="eyebrow">Hand-picked</div><h2>Featured stays</h2></div><a href="{url('properties')}">All {len(LISTINGS)} properties &rarr;</a></div>{cards(featured)}</div></section>
 
@@ -484,65 +675,108 @@ def properties():
     write("properties", page("properties", "All holiday homes and rooms in Malta | Maltese Stays", f"Browse {len(LISTINGS)} licensed holiday apartments, townhouses, penthouses and private rooms in Valletta, Sliema, St Julian's, the Three Cities, Msida, St Paul's Bay, Marsaskala and Rabat. Book direct.", body, schema, active="properties"))
 
 # ---------- PROPERTY PAGES ----------
+def fmt_date(d):
+    try:
+        return datetime.date.fromisoformat(d).strftime("%B %Y")
+    except Exception:
+        return ""
+
 def property_page(l):
     a = AREA_BY[l["area"]]
+    det = l.get("det") or {}
+    avg, nrev = rating(l)
+    pf = price_from(l)
     crumb_html, crumb_ld = crumbs([("Home", ""), (a["name"], "areas/" + a["slug"]), (l["name"], "properties/" + l["slug"])])
-    gal = "".join(f'<a href="{img(p, 1600, 1200, "c_limit")}" target="_blank" rel="noopener"><img src="{img(p, 900, 675) if i == 0 else img(p, 600, 450)}" alt="{esc(l["name"])}, photo {i+1}" {"" if i == 0 else "loading=\"lazy\""} width="{900 if i==0 else 600}" height="{675 if i==0 else 450}"></a>' for i, p in enumerate(l["pics"][:5]))
+    pics = l["pics"]
+    gal = "".join(f'<a href="#photo-{i+1}" data-i="{i}"><img src="{img(p, 900, 675) if i == 0 else img(p, 600, 450)}" alt="{esc(l["name"])}, photo {i+1}" {"fetchpriority=\"high\"" if i == 0 else "loading=\"lazy\""} width="{900 if i==0 else 600}" height="{675 if i==0 else 450}"></a>' for i, p in enumerate(pics[:5]))
+    allp = "".join(f'<img id="photo-{i+1}" src="{img(p, 1400, 1050, "c_limit")}" alt="{esc(l["name"])}, photo {i+1} of {len(pics)}" loading="lazy" width="1400" height="1050">' for i, p in enumerate(pics))
+    more_btn = f'<button class="btn btn-outline gal-all" type="button" data-i="0">Show all {len(pics)} photos</button>' if len(pics) > 5 else ""
     hl = "".join(f"<li>{esc(h)}</li>" for h in l["highlights"])
     tags = "".join(f"<span>{esc(t)}</span>" for t in l["good_for"])
     note = f'<p class="note">{esc(l["note"])}</p>' if l.get("note") else ""
     group = GROUP_BY.get(l.get("group"))
     group_html = ""
     if group:
-        others = [o for o in LISTINGS if o.get("group") == group["slug"] and o["id"] != l["id"]]
-        group_html = f"""<h2 style="font-size:1.5rem">Part of {esc(group['name'])}</h2><p>{esc(group['intro'])}</p><p><a href="{url('guest-houses/'+group['slug'])}">See all rooms in this guest house &rarr;</a></p>"""
+        group_html = f"""<h2 class="h-sec">Part of {esc(group['name'])}</h2><p>{esc(group['intro'])}</p><p><a href="{url('guest-houses/'+group['slug'])}">See all rooms in this guest house &rarr;</a></p>"""
     similar = [o for o in LISTINGS if o["area"] == l["area"] and o["id"] != l["id"] and o.get("group") != l.get("group")][:3]
     if len(similar) < 3:
         similar += [o for o in LISTINGS if o["id"] != l["id"] and o not in similar and o["type"] == l["type"]][: 3 - len(similar)]
+    amen = clean_amenities(det.get("amen"))
+    amen_html = ""
+    if amen:
+        amen_html = '<h2 class="h-sec">What this place offers</h2><div class="amen">' + "".join(
+            f'<div><h3>{esc(g)}</h3><ul>' + "".join(f"<li>{esc(x)}</li>" for x in v) + "</ul></div>" for g, v in amen.items()) + "</div>"
+        if l["type"] == "room" and "Kitchen" in amen:
+            amen_html += '<p class="small">Kitchen and laundry are shared with other guests in the house.</p>'
+    ci, co, mn = det.get("ci") or "16:00", det.get("co") or "10:00", det.get("minN")
+    rules = f"""<h2 class="h-sec">Good to know</h2><div class="facts"><div><b>Check-in</b><span>From {esc(ci)}, self check-in</span></div><div><b>Check-out</b><span>By {esc(co)}</span></div>{f'<div><b>Minimum stay</b><span>{mn} night{"s" if mn != 1 else ""}, may vary by season</span></div>' if mn else ''}<div><b>Licence</b><span>Malta Tourism Authority licensed</span></div></div>"""
+    rev_html = ""
+    if nrev:
+        items = "".join(f"""<figure class="rev"><div class="rev-top"><span class="stars" aria-label="{r['r']} out of 10">&#9733; {r['r']:g}/10</span><span class="src">{esc(r['s'])}</span></div><blockquote>{esc(r['t'])}</blockquote><figcaption>{esc(r['n'])}{', ' + fmt_date(r['d']) if fmt_date(r['d']) else ''}</figcaption></figure>""" for r in det.get("revs", []))
+        rev_html = f"""<h2 class="h-sec" id="reviews">Guest reviews</h2><div class="rev-sum"><span class="big">&#9733; {avg:.2f}</span><span>out of 5 from <b>{nrev}</b> verified guest reviews on Airbnb, Booking.com and Expedia</span></div><div class="revs">{items}</div><p class="small">A selection of recent reviews, shown in the language the guest wrote them. The average includes every review.</p>"""
+    lat3, lng3 = round(l["lat"], 3), round(l["lng"], 3)
+    map_html = f"""<h2 class="h-sec">Location</h2><p>{esc(l['nearby'])}</p><div class="map"><iframe title="Map of the area around {esc(l['name'])}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q={lat3},{lng3}&z=15&output=embed"></iframe></div><p class="small">Approximate location. The exact address is sent after booking. <a href="{url('areas/'+a['slug'])}">More about staying in {esc(a['name'])} &rarr;</a></p>"""
     faq = [
-        (f"How do I book {l['name']}?", f"Click Check availability, choose your dates and pay securely on our booking site."),
+        (f"How do I book {l['name']}?", "Click Check availability, choose your dates and pay securely on our booking site. You get an instant confirmation by email."),
+        ("What time is check-in and check-out?", f"Check-in is from {ci} with self check-in, so late arrivals are fine. Check-out is by {co}. Ask us on WhatsApp if you need luggage storage or a different time."),
         ("What is included?", "Fresh linen and towels, a fully equipped kitchen" + (" shared with other guests" if l["type"] == "room" else "") + ", WiFi, air conditioning and 24/7 support from our local team on WhatsApp."),
         ("Is the property licensed?", "Yes. It holds a Malta Tourism Authority holiday licence and the number is displayed inside the property."),
         ("How far is it from the airport?", f"{a['name']} is roughly {('20 minutes' if l['area'] in ('marsaskala','three-cities') else '30 to 40 minutes' if l['area'] in ('st-pauls-bay','rabat-mdina') else '25 to 30 minutes')} from Malta International Airport by taxi. We can arrange a transfer on request."),
     ]
+    price_html = f'<div class="bb-price">From <b>&euro;{pf}</b> <span>/ night</span></div><small>Price for the cheapest available night in the coming months. Your exact total is shown before you pay.</small>' if pf else '<strong style="font-family:var(--display);font-size:1.3rem;color:var(--navy)">Book direct and save</strong>'
+    rating_line = f'<a class="rating-link" href="#reviews"><span class="score">&#9733; {avg:.1f}</span> <span>{nrev} reviews</span></a>' if nrev else (('<span>' + score_badge(l) + '</span>') if l.get('score') else '')
     body = f"""<section style="padding-top:1.5rem"><div class="wrap">{crumb_html}
 <div class="eyebrow">{esc(l['kind'])} in {esc(l['locality'])}</div>
 <h1>{esc(l['name'])}</h1>
-<div class="specs-big"><span><b>{l['acc']}</b> guests</span><span><b>{l['beds']}</b> bedroom{'s' if l['beds']>1 else ''}</span><span><b>{fmt_baths(l['baths'])}</b> bathroom{'s' if float(l['baths'])>1 else ''}</span>{('<span>' + score_badge(l) + ' on Airbnb</span>') if l.get('score') else ''}</div>
-<div class="gallery">{gal}</div>
+<div class="specs-big"><span><b>{l['acc']}</b> guests</span><span><b>{l['beds']}</b> bedroom{'s' if l['beds']>1 else ''}</span><span><b>{fmt_baths(l['baths'])}</b> bathroom{'s' if float(l['baths'])>1 else ''}</span>{rating_line}</div>
+<div class="gallery-wrap"><div class="gallery">{gal}</div>{more_btn}</div>
 <div class="prop"><div class="main">
-<p style="font-size:1.1rem">{esc(l['intro'])}</p>
+<p class="lead">{esc(l['intro'])}</p>
 <div class="tags">{tags}</div>
-<h2 style="font-size:1.5rem">Highlights</h2><ul class="hl">{hl}</ul>
-<h2 style="font-size:1.5rem">Sleeping arrangements</h2><p>{esc(l['sleeps'])}</p>
-<h2 style="font-size:1.5rem">The neighbourhood</h2><p>{esc(l['nearby'])}</p><p><a href="{url('areas/'+a['slug'])}">More about staying in {esc(a['name'])} &rarr;</a></p>
-{note}{group_html}
-<h2 style="font-size:1.5rem">Questions about this stay</h2>{faq_html(faq)}
+<h2 class="h-sec">Highlights</h2><ul class="hl">{hl}</ul>
+<h2 class="h-sec">Sleeping arrangements</h2><p>{esc(l['sleeps'])}</p>
+{amen_html}
+{rules}
+{note}{rev_html}
+{map_html}
+{group_html}
+<h2 class="h-sec">Questions about this stay</h2>{faq_html(faq)}
 </div>
-<aside class="bookbox"><strong style="font-family:var(--display);font-size:1.3rem;color:var(--navy)">Book direct and save</strong>
-<small>Our lowest rate is always here. No platform fees, and you deal directly with our local team.</small>
+<aside class="bookbox">{price_html}
 <a class="btn btn-primary" href="{book_url(l)}" rel="noopener">Check availability</a>
 <a class="btn btn-wa" href="{WA_URL}" rel="noopener">{WA_ICON} Ask on WhatsApp</a>
-<small>Licensed by the Malta Tourism Authority. Local team available 24/7.</small></aside>
+<small>No platform fees. Licensed by the Malta Tourism Authority. Local team available 24/7.</small></aside>
 </div></div></section>
-<section class="alt"><div class="wrap"><div class="sec-head"><h2 style="font-size:1.6rem">You may also like</h2><a href="{url('properties')}">All properties &rarr;</a></div>{cards(similar)}</div></section>"""
-    schema = {"@context": "https://schema.org", "@graph": [crumb_ld, {
+<section class="alt"><div class="wrap"><div class="sec-head"><h2 style="font-size:1.6rem">You may also like</h2><a href="{url('properties')}">All properties &rarr;</a></div>{cards(similar)}</div></section>
+<dialog class="lightbox" id="lightbox" aria-label="All photos of {esc(l['name'])}"><div class="lb-bar"><span>{len(pics)} photos</span><button type="button" class="lb-close" aria-label="Close photos">&times; Close</button></div><div class="lb-body">{allp}</div></dialog>
+<script>(function(){{var d=document.getElementById('lightbox');if(!d||!d.showModal)return;function open(i){{d.showModal();var t=document.getElementById('photo-'+(i+1));if(t)t.scrollIntoView({{block:'start'}})}}document.querySelectorAll('[data-i]').forEach(function(a){{a.addEventListener('click',function(e){{e.preventDefault();open(+a.dataset.i)}})}});d.querySelector('.lb-close').addEventListener('click',function(){{d.close()}});d.addEventListener('click',function(e){{if(e.target===d)d.close()}})}})();</script>"""
+    mbar = f'<div class="mbar">{f"<div class=\"mb-price\">From <b>&euro;{pf}</b><span>/ night</span></div>" if pf else ""}<a class="btn btn-primary" href="{book_url(l)}" rel="noopener">Check availability</a></div>'
+    stay = {
         "@type": "VacationRental" if l["type"] == "home" else "LodgingBusiness", "@id": canon("properties/" + l["slug"]) + "#stay",
         "name": l["name"], "description": l["intro"], "url": canon("properties/" + l["slug"]),
-        "image": [img(p, 1200, 900) for p in l["pics"][:5]],
+        "image": [img(p, 1200, 900) for p in pics[:8]],
         "address": {"@type": "PostalAddress", "addressLocality": l["locality"], "addressRegion": "Malta", "addressCountry": "MT"},
-        "geo": {"@type": "GeoCoordinates", "latitude": l["lat"], "longitude": l["lng"]},
-        "numberOfRooms": l["beds"], "numberOfBedrooms": l["beds"], "numberOfBathroomsTotal": l["baths"],
-        "occupancy": {"@type": "QuantitativeValue", "maxValue": l["acc"]},
-        "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": h, "value": True} for h in l["highlights"]],
-        "petsAllowed": False, "checkinTime": "15:00", "checkoutTime": "10:00",
-        "containedInPlace": {"@type": "Place", "name": l["locality"] + ", Malta"},
+        "geo": {"@type": "GeoCoordinates", "latitude": lat3, "longitude": lng3},
+        "containsPlace": {"@type": "Accommodation", "additionalType": "EntirePlace" if l["type"] == "home" else "PrivateRoom",
+                          "numberOfBedrooms": l["beds"], "numberOfBathroomsTotal": l["baths"],
+                          "occupancy": {"@type": "QuantitativeValue", "value": l["acc"]},
+                          "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": x, "value": True} for v in amen.values() for x in v] or [{"@type": "LocationFeatureSpecification", "name": h, "value": True} for h in l["highlights"]]},
+        "checkinTime": ci, "checkoutTime": co, "petsAllowed": False,
         "brand": {"@id": SITE + "/#org"}, "potentialAction": {"@type": "ReserveAction", "target": book_url(l)},
-        **({"aggregateRating": {"@type": "AggregateRating", "ratingValue": l["score"], "bestRating": 5, "ratingCount": 1}} if False else {})
-    }, faq_schema(faq)]}
+    }
+    if pf:
+        stay["priceRange"] = f"From EUR {pf} per night"
+    if nrev:
+        stay["aggregateRating"] = {"@type": "AggregateRating", "ratingValue": round(avg, 2), "bestRating": 5, "worstRating": 1, "ratingCount": nrev, "reviewCount": nrev}
+        stay["review"] = [{"@type": "Review", "author": {"@type": "Person", "name": r["n"]}, "datePublished": r["d"], "reviewBody": r["t"],
+                           "reviewRating": {"@type": "Rating", "ratingValue": r["r"], "bestRating": 10, "worstRating": 1}} for r in det.get("revs", [])[:5]]
+    schema = {"@context": "https://schema.org", "@graph": [crumb_ld, stay, faq_schema(faq)]}
     title = f"{l['name']} | {l['kind']} in {l['locality']}, Malta"
-    meta = f"{l['intro'][:150].rsplit(' ',1)[0]}. Sleeps {l['acc']}. Licensed, locally managed. Book direct for the best price."
-    write("properties/" + l["slug"], page("properties/" + l["slug"], title, meta, body, schema, og_image=img(l["pics"][0], 1200, 630), active="properties"))
+    extra = []
+    if nrev: extra.append(f"Rated {avg:.1f}/5 by {nrev} guests.")
+    if pf: extra.append(f"From EUR {pf}/night.")
+    meta = f"{l['intro'][:120].rsplit(' ',1)[0]}. Sleeps {l['acc']}. {' '.join(extra)} Book direct."
+    write("properties/" + l["slug"], page("properties/" + l["slug"], title, meta, body, schema, og_image=img(pics[0], 1200, 630), active="properties", mbar=mbar))
 
 # ---------- AREAS ----------
 def areas_index():
@@ -639,9 +873,51 @@ def not_found():
     with open(os.path.join(OUT, "404.html"), "w", encoding="utf-8") as f:
         f.write(page("404", "Page not found", "Page not found", body).replace('<meta name="robots" content="index,follow,max-image-preview:large">', '<meta name="robots" content="noindex">'))
 
+# ---------- GUIDES ----------
+def area_pic(slug, i=0):
+    ls = [l for l in LISTINGS if l["area"] == slug]
+    return (ls[min(i, len(ls) - 1)] if ls else LISTINGS[0])["pics"][0]
+
+def guides_index():
+    crumb_html, crumb_ld = crumbs([("Home", ""), ("Malta guides", "guides")])
+    items = "".join(f"""<a class="card" href="{url('guides/'+g['slug'])}"><div class="ph"><img src="{img(area_pic(g['hero_area']), 640, 480)}" alt="{esc(g['title'])}" loading="lazy" width="640" height="480"></div><div class="body"><span class="kind">Guide</span><h3>{esc(g['title'])}</h3><p class="small" style="margin:0">{esc(g['meta'][:140].rsplit(' ',1)[0])}.</p></div></a>""" for g in GUIDES)
+    body = f"""<section><div class="wrap">{crumb_html}<div class="eyebrow">Plan your trip</div><h1>Malta travel guides from the local team</h1><p class="lead">Practical advice from people who live in Malta and look after homes all over the island.</p><div class="guide-cards" style="margin-top:1.5rem">{items}</div></div></section>"""
+    write("guides", page("guides", "Malta travel guides | Maltese Stays", "Local guides to planning a trip to Malta: where to stay, Valletta or Sliema, and what to expect in winter.", body, {"@context": "https://schema.org", "@graph": [crumb_ld]}, active="guides"))
+
+def guide_page(g):
+    crumb_html, crumb_ld = crumbs([("Home", ""), ("Malta guides", "guides"), (g["title"], "guides/" + g["slug"])])
+    parts = []
+    if g.get("table"):
+        head, *rows = g["table"]
+        parts.append('<div class="tbl"><table><thead><tr>' + "".join(f"<th>{esc(h)}</th>" for h in head) + "</tr></thead><tbody>" + "".join("<tr>" + "".join(f"<td>{esc(c)}</td>" for c in r) + "</tr>" for r in rows) + "</tbody></table></div>")
+    for sec in g["sections"]:
+        block = f"<h2>{esc(sec['h'])}</h2>" + "".join(f"<p>{esc(p)}</p>" for p in sec["p"])
+        if sec.get("area"):
+            a = AREA_BY[sec["area"]]
+            n = sum(1 for l in LISTINGS if l["area"] == a["slug"])
+            if n:
+                block += f'<p><a href="{url("areas/"+a["slug"])}">See our {n} {"stay" if n == 1 else "stays"} in {esc(a["name"])} &rarr;</a></p>'
+        parts.append(block)
+    picks = []
+    for sec in g["sections"]:
+        for l in LISTINGS:
+            if sec.get("area") == l["area"] and l["type"] == "home" and l not in picks:
+                picks.append(l); break
+    picks = picks[:3]
+    hero = img(area_pic(g["hero_area"]), 1800, 700)
+    body = f"""<div class="hero hero-small"><img src="{hero}" alt="" width="1800" height="700"><div class="wrap">{crumb_html.replace('class="crumbs"','class="crumbs" style="color:#cfe0ff"')}<div class="eyebrow">Malta guide</div><h1>{esc(g['title'])}</h1></div></div>
+<section><div class="wrap"><article class="article"><div class="tldr"><p><b>In short:</b> {esc(g['tldr'])}</p></div>{''.join(parts)}
+<h2>Questions</h2>{faq_html(g['faq'])}
+<p class="small" style="margin-top:2rem">Written by the Maltese Stays team, who manage licensed holiday homes across Malta. Updated {datetime.date.today().strftime('%B %Y')}.</p></article></div></section>
+{f'<section class="alt"><div class="wrap"><div class="sec-head"><h2 style="font-size:1.6rem">Stays mentioned in this guide</h2><a href="{url("properties")}">All properties &rarr;</a></div>{cards(picks)}</div></section>' if picks else ''}"""
+    art = {"@type": "Article", "headline": g["seo_title"], "description": g["meta"], "image": hero.replace("w_1800,h_700", "w_1200,h_630"),
+           "datePublished": "2026-11-02", "dateModified": TODAY, "author": {"@type": "Organization", "name": BRAND, "url": SITE},
+           "publisher": {"@id": SITE + "/#org"}, "mainEntityOfPage": canon("guides/" + g["slug"])}
+    write("guides/" + g["slug"], page("guides/" + g["slug"], g["seo_title"], g["meta"], body, {"@context": "https://schema.org", "@graph": [crumb_ld, art, faq_schema(g["faq"])]}, og_image=hero, active="guides", og_type="article"))
+
 # ---------- SITEMAP / ROBOTS / LLMS ----------
 def extras():
-    paths = ["", "properties", "areas", "guest-houses", "book-direct", "about", "contact"] + [f"areas/{a['slug']}" for a in AREAS if any(l['area']==a['slug'] for l in LISTINGS)] + [f"guest-houses/{g['slug']}" for g in GROUPS] + [f"properties/{l['slug']}" for l in LISTINGS]
+    paths = ["", "properties", "areas", "guest-houses", "guides", "book-direct", "about", "contact"] + [f"guides/{g['slug']}" for g in GUIDES] + [f"areas/{a['slug']}" for a in AREAS if any(l['area']==a['slug'] for l in LISTINGS)] + [f"guest-houses/{g['slug']}" for g in GROUPS] + [f"properties/{l['slug']}" for l in LISTINGS]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for p in paths:
         pri = "1.0" if p == "" else "0.9" if p.startswith("areas/") or p == "properties" else "0.8"
@@ -655,6 +931,7 @@ def extras():
     llms += "\n## Properties\n"
     for l in LISTINGS:
         llms += f"- [{l['name']}]({canon('properties/'+l['slug'])}): {l['kind']} in {l['locality']}, sleeps {l['acc']}, {l['beds']} bedroom(s). {l['intro'][:140].rsplit(' ',1)[0]}.\n"
+    llms += "\n## Guides\n" + "".join(f"- [{g['title']}]({canon('guides/'+g['slug'])}): {g['tldr']}\n" for g in GUIDES)
     llms += f"\n## Guest houses\n" + "".join(f"- [{g['name']}]({canon('guest-houses/'+g['slug'])})\n" for g in GROUPS)
     llms += f"\n## Other\n- [Why book direct]({canon('book-direct')})\n- [About]({canon('about')})\n- [Contact]({canon('contact')})\n- Owners: property management at {OWNER_SITE}\n"
     open(os.path.join(OUT, "llms.txt"), "w", encoding="utf-8").write(llms)
@@ -668,6 +945,8 @@ if os.path.exists(OUT):
 os.makedirs(OUT)
 home(); properties(); areas_index(); guest_houses(); book_direct(); about(); contact(); not_found(); extras()
 for l in LISTINGS: property_page(l)
+guides_index()
+for g in GUIDES: guide_page(g)
 for a in AREAS: area_page(a)
 for g in GROUPS: group_page(g)
 n = sum(len(f) for _, _, f in os.walk(OUT))
