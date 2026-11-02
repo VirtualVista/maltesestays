@@ -269,8 +269,11 @@ def _pick(pref_id, idx_fallback):
         if l["id"] == pref_id and l["pics"]:
             return l["pics"][0]
     return LISTINGS[min(idx_fallback, len(LISTINGS) - 1)]["pics"][0]
+ARCH_SVG = '<svg class="mark" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 60V30a22 22 0 0 1 44 0v30z" fill="var(--navy)"/><path d="M19 60V31a13 13 0 0 1 26 0v29z" fill="var(--bg)"/><path d="M19 47h26v13H19z" fill="var(--blue)"/><path d="M19 47c4.3 2.6 8.7 2.6 13 0s8.7-2.6 13 0v2.6c-4.3-2.6-8.7-2.6-13 0s-8.7 2.6-13 0z" fill="var(--bg)"/><path d="M28.5 6h7l-1.2 9h-4.6z" fill="#B9D85A"/></svg>'
+FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M10 60V30a22 22 0 0 1 44 0v30z' fill='%2332375D'/%3E%3Cpath d='M19 60V31a13 13 0 0 1 26 0v29z' fill='%23F6F3EC'/%3E%3Cpath d='M19 47h26v13H19z' fill='%23275FB5'/%3E%3C/svg%3E"
 HERO_PIC = _pick(21762, 0)    # Rabat rooftop pool
-HERO_PIC2 = _pick(22404, 1)   # Ta' Xbiex terrace
+HERO_PIC2 = _pick(22404, 1)
+MOSAIC = [_pick(22404, 1), _pick(21750, 2), _pick(26837, 3)]   # Ta' Xbiex terrace
 
 # ---------- helpers ----------
 def esc(s): return html.escape(str(s), quote=True)
@@ -352,7 +355,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.8rem}
 .logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--navy);font-family:var(--display);font-weight:600;font-size:1.2rem;letter-spacing:-.01em}
-.logo span{width:34px;height:34px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--body);font-size:.75rem;font-weight:700;letter-spacing:.04em}
+.logo .mark{flex:none}.logo .lt{display:flex;flex-direction:column;line-height:1.05}.logo small{font-family:var(--body);font-weight:600;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--slate);margin-top:.2rem}
 nav.main{display:flex;gap:1.4rem;align-items:center}
 nav.main a{color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
 nav.main a:hover{color:var(--blue)}
@@ -367,6 +370,8 @@ nav.main .btn{padding:.55rem 1rem;font-size:.9rem}
 .hero p{font-size:1.15rem;color:#e9edf5;max-width:56ch}
 .hero .actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
 .hero .eyebrow{color:#cfe0ff}
+.hero-home .mosaic{display:none}
+@media (min-width:1100px){.hero-home .mosaic{display:grid;position:absolute;right:max(16px,calc((100vw - var(--maxw))/2));top:50%;transform:translateY(-50%);width:min(36vw,470px);grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;aspect-ratio:1;z-index:1}.hero-home .mosaic img{position:static;opacity:1;width:100%;height:100%;object-fit:cover;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35)}.hero-home .mosaic img:first-child{grid-row:span 2}.hero-home .wrap{margin-left:max(16px,calc((100vw - var(--maxw))/2));max-width:min(600px,52vw)}}
 .hero-small .wrap{padding-block:clamp(3rem,7vw,5rem) clamp(2rem,5vw,3.5rem)}
 /* sections */
 section{padding-block:clamp(2.5rem,6vw,4.5rem)}
@@ -376,8 +381,11 @@ section.alt{background:var(--stone)}
 .grid{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
 .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;min-width:0;text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s}
 .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(31,35,64,.12)}
-.card .ph{aspect-ratio:4/3;max-width:100%;overflow:hidden;background:var(--mist)}
-.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .ph{position:relative;aspect-ratio:4/3;max-width:100%;overflow-x:auto;overflow-y:hidden;display:flex;scroll-snap-type:x mandatory;scrollbar-width:none;background:var(--mist)}
+.card .ph::-webkit-scrollbar{display:none}
+.card .ph img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start}
+.card .nph{position:absolute;right:.6rem;bottom:.6rem;background:rgba(31,35,64,.72);color:#fff;font-size:.72rem;font-weight:600;padding:.2rem .5rem;border-radius:99px;pointer-events:none}
+@media (hover:hover){.card .ph{overflow:hidden}.card .nph{display:none}}
 .card .body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:.35rem}
 .card h3{font-size:1.12rem;margin:0}
 .card .loc{color:var(--slate);font-size:.9rem;display:flex;justify-content:space-between;gap:.5rem}
@@ -539,7 +547,7 @@ def nav(active=""):
     items = [("properties", "All properties"), ("areas", "Areas"), ("guest-houses", "Guest houses"), ("guides", "Malta guides"), ("contact", "Contact")]
     links = "".join(f'<a href="{url(p)}"{" aria-current=\"page\"" if p == active else ""}>{t}</a>' for p, t in items)
     return f"""<header class="site"><div class="wrap">
-<a class="logo" href="{url('')}" aria-label="{BRAND} home"><span>MS</span>{BRAND}<small style="font-family:var(--body);font-weight:500;font-size:.7rem;color:var(--slate);margin-left:.4rem">by Landlord Care</small></a>
+<a class="logo" href="{url('')}" aria-label="{BRAND} home">{ARCH_SVG}<span class="lt">{BRAND}<small>by Landlord Care</small></span></a>
 <button class="menu-btn" aria-expanded="false" aria-controls="mainnav">Menu</button>
 <nav class="main" id="mainnav" aria-label="Main">{links}<a class="btn btn-primary" href="{BOOK_BASE}/?lang=en" rel="noopener">Check availability</a></nav>
 </div></header>"""
@@ -574,7 +582,7 @@ def page(path, title, meta, body, schema=None, og_image=None, active="", extra_h
 <meta name="msvalidate.01" content="1FD590CE64174ED0A1ED2110DCB326FE">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2332375D'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Inter,Arial' font-weight='700' font-size='24' fill='white'%3EMS%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="{FAVICON}" type="image/svg+xml"><link rel="apple-touch-icon" href="{SITE}/apple-touch-icon.png">
 {extra_head}
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}
 var _c=null;try{{_c=localStorage.getItem('ms_consent')}}catch(e){{}}
@@ -591,7 +599,7 @@ gtag('js',new Date());gtag('config','{GA_ID}');</script>
 def org_schema():
     return {"@context": "https://schema.org", "@type": "LodgingBusiness", "@id": SITE + "/#org", "name": BRAND,
             "alternateName": "Maltese Stays by Landlord Care", "url": SITE, "telephone": "+" + WA, "email": EMAIL,
-            "image": img(HERO_PIC, 1200, 800), "priceRange": "€€",
+            "image": img(HERO_PIC, 1200, 800), "logo": SITE + "/logo-512.png", "priceRange": "€€",
             "address": {"@type": "PostalAddress", "streetAddress": ADDRESS["street"], "addressLocality": ADDRESS["locality"], "postalCode": ADDRESS["postal"], "addressCountry": "MT"},
             "areaServed": [{"@type": "City", "name": a["name"]} for a in AREAS],
             "parentOrganization": {"@type": "Organization", "name": "Landlord Care", "url": OWNER_SITE},
@@ -611,7 +619,7 @@ def faq_schema(pairs):
 
 def card(l):
     return f"""<a class="card" href="{url('properties/'+l['slug'])}" data-area="{l['area']}" data-type="{l['type']}">
-<div class="ph"><img src="{img(l['pics'][0], 640, 480)}" alt="{esc(l['name'])}, {esc(l['locality'])}, Malta" loading="lazy" width="640" height="480"></div>
+<div class="ph">{''.join(f'<img src="{img(p, 640, 480)}" alt="{esc(l["name"])}, {esc(l["locality"])}, Malta{f" (photo {i+1})" if i else ""}" loading="lazy" width="640" height="480">' for i, p in enumerate(l['pics'][:4]))}{f'<span class="nph">{min(4,len(l["pics"]))} photos &rsaquo;</span>' if len(l['pics'])>1 else ''}</div>
 <div class="body"><span class="kind">{esc(l['kind'])}</span><h3>{esc(l['name'])}</h3>
 <div class="loc"><span>{esc(l['locality'])}</span>{score_badge(l)}</div>
 <div class="specs"><span>{l['acc']} guests</span><span>{l['beds']} bed{'s' if l['beds']>1 else ''}</span><span>{fmt_baths(l['baths'])} bath{'s' if float(l['baths'])>1 else ''}</span></div>{f'<div class="price">From <b>&euro;{price_from(l)}</b> / night</div>' if price_from(l) else ''}</div></a>"""
@@ -635,7 +643,8 @@ def home():
         featured += [l for l in LISTINGS if l not in featured and l["type"] == "home"][: 9 - len(featured)]
     areas = "".join(f"""<a class="area" href="{url('areas/'+a['slug'])}"><img src="{img(next(l for l in LISTINGS if l['area']==a['slug'])['pics'][0], 520, 416)}" alt="Holiday rentals in {esc(a['name'])}, Malta" loading="lazy" width="520" height="416"><div><strong>{esc(a['name'])}</strong><small>{esc(a['short'])} &middot; {sum(1 for l in LISTINGS if l['area']==a['slug'])} stays</small></div></a>""" for a in AREAS if any(l['area']==a['slug'] for l in LISTINGS))
     body = f"""
-<div class="hero"><img src="{img(HERO_PIC, 1800, 1000)}" alt="" width="1800" height="1000" fetchpriority="high">
+<div class="hero hero-home"><img src="{img(HERO_PIC, 1800, 1000)}" alt="" width="1800" height="1000" fetchpriority="high">
+<div class="mosaic" aria-hidden="true">{''.join(f'<img src="{img(p, 700, 700)}" alt="" width="700" height="700" loading="lazy">' for p in MOSAIC)}</div>
 <div class="wrap"><div class="eyebrow">Licensed holiday homes in Malta</div>
 <h1>Stay in Malta. Book direct with the local team.</h1>
 <p>{len(LISTINGS)} apartments, townhouses, penthouses and guest house rooms in Valletta, Sliema, St Julian's, the Three Cities and beyond. Professionally managed, licensed, and cheaper when you book here than on Airbnb or Booking.com.</p>
@@ -977,6 +986,9 @@ def extras():
         open(os.path.join(OUT, "googlea814f4bcb5ad0a14.html"), "w").write("google-site-verification: googlea814f4bcb5ad0a14.html")
         open(os.path.join(OUT, "CNAME"), "w").write(SITE.replace("https://", "") + "\n")
         open(os.path.join(OUT, ".nojekyll"), "w").write("")
+    sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+    if os.path.isdir(sd):
+        for f in os.listdir(sd): shutil.copy(os.path.join(sd, f), os.path.join(OUT, f))
 
 # ---------- RUN ----------
 if os.path.exists(OUT):
