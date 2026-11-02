@@ -17,7 +17,7 @@ WA = "35699550351"
 WA_URL = f"https://wa.me/{WA}?text=Hi%20Landlord%20Care%2C%20I%27d%20like%20to%20book%20a%20stay%20in%20Malta"
 EMAIL = "reservations.landlordcare@gmail.com"
 PHONE_DISPLAY = "+356 9955 0351"
-COUPON = "LCSTAYS"
+COUPON = ""  # returning-guest code: not shown publicly
 OWNER_SITE = "https://landlord.care"
 ADDRESS = {"street": "30, Triq San Girgor", "locality": "Sliema", "postal": "SLM 2113", "country": "MT"}
 TODAY = datetime.date.today().isoformat()
@@ -416,7 +416,7 @@ def cards(ls):
 
 # ---------- HOME ----------
 HOME_FAQ = [
-    ("Why should I book direct instead of through Airbnb or Booking.com?", "Direct bookings skip the platform fees, so we can offer our lowest rate and a 15% discount to returning guests with the code LCSTAYS. You also talk to the local team from the first message, not a call centre."),
+    ("Why should I book direct instead of through Airbnb or Booking.com?", "Direct bookings skip the platform fees, so we can offer our lowest rate for the same dates. You also talk to the local team from the first message, not a call centre."),
     ("Are your properties licensed?", "Yes. Every home and room we manage holds a Malta Tourism Authority holiday licence, and the licence number is displayed in the property as the law requires."),
     ("Who looks after me during my stay?", "A local team based in Malta, reachable on WhatsApp 24 hours a day for anything from a late check-in to a restaurant recommendation."),
     ("What is the best area to stay in Malta?", "Valletta for history and walking everywhere, Sliema and St Julian's for the seafront and restaurants, the Three Cities for an authentic local feel at a lower price, and Msida, Pietà or Ta' Xbiex for space, terraces and pools a few minutes from everything."),
@@ -442,7 +442,7 @@ def home():
 
 <section><div class="wrap"><div class="eyebrow">Book direct</div><h2>Three reasons to book here instead of on a platform</h2>
 <div class="why">
-<div><div class="num">1</div><h3>Best price, always</h3><p>No platform commission means our direct rate is the lowest you will find for the same dates. Returning guests get 15% off with the code <span class="coupon">{COUPON}</span>.</p></div>
+<div><div class="num">1</div><h3>Best price, always</h3><p>No platform commission means our direct rate is the lowest you will find for the same dates. </p></div>
 <div><div class="num">2</div><h3>A real local team</h3><p>Landlord Care has managed homes in Malta for over four years. The people who answer your WhatsApp are the same people who look after the property.</p></div>
 <div><div class="num">3</div><h3>Licensed and inspected</h3><p>Every property holds a Malta Tourism Authority licence. Professional cleaning, hotel-quality linen and 24/7 support come as standard.</p></div>
 </div></div></section>
@@ -450,7 +450,7 @@ def home():
 <section class="alt"><div class="wrap"><div class="eyebrow">Good to know</div><h2>Questions guests ask us</h2>{faq_html(HOME_FAQ)}</div></section>
 """
     schema = {"@context": "https://schema.org", "@graph": [org_schema(), {"@type": "WebSite", "url": SITE, "name": BRAND, "publisher": {"@id": SITE + "/#org"}}, faq_schema(HOME_FAQ)]}
-    write("", page("", "Maltese Stays | Book direct holiday homes in Malta", "Book direct licensed holiday apartments, townhouses, penthouses and guest house rooms across Malta. Managed by a local team, best price when you book here, 15% off for returning guests.", body, schema, active=""))
+    write("", page("", "Maltese Stays | Book direct holiday homes in Malta", "Book direct licensed holiday apartments, townhouses, penthouses and guest house rooms across Malta. Managed by a local team, best price when you book here.", body, schema, active=""))
 
 # ---------- PROPERTIES INDEX ----------
 def properties():
@@ -485,7 +485,7 @@ def property_page(l):
     if len(similar) < 3:
         similar += [o for o in LISTINGS if o["id"] != l["id"] and o not in similar and o["type"] == l["type"]][: 3 - len(similar)]
     faq = [
-        (f"How do I book {l['name']}?", f"Click Check availability, choose your dates and pay securely on our booking site. Returning guests can enter the code {COUPON} for 15% off."),
+        (f"How do I book {l['name']}?", f"Click Check availability, choose your dates and pay securely on our booking site."),
         ("What is included?", "Fresh linen and towels, a fully equipped kitchen" + (" shared with other guests" if l["type"] == "room" else "") + ", WiFi, air conditioning and 24/7 support from our local team on WhatsApp."),
         ("Is the property licensed?", "Yes. It holds a Malta Tourism Authority holiday licence and the number is displayed inside the property."),
         ("How far is it from the airport?", f"{a['name']} is roughly {('20 minutes' if l['area'] in ('marsaskala','three-cities') else '30 to 40 minutes' if l['area'] in ('st-pauls-bay','rabat-mdina') else '25 to 30 minutes')} from Malta International Airport by taxi. We can arrange a transfer on request."),
@@ -505,7 +505,7 @@ def property_page(l):
 <h2 style="font-size:1.5rem">Questions about this stay</h2>{faq_html(faq)}
 </div>
 <aside class="bookbox"><strong style="font-family:var(--display);font-size:1.3rem;color:var(--navy)">Book direct and save</strong>
-<small>Our lowest rate is always here. No platform fees. Returning guests: 15% off with code <span class="coupon">{COUPON}</span>.</small>
+<small>Our lowest rate is always here. No platform fees, and you deal directly with our local team.</small>
 <a class="btn btn-primary" href="{book_url(l)}" rel="noopener">Check availability</a>
 <a class="btn btn-wa" href="{WA_URL}" rel="noopener">{WA_ICON} Ask on WhatsApp</a>
 <small>Licensed by the Malta Tourism Authority. Local team available 24/7.</small></aside>
@@ -585,7 +585,6 @@ def group_page(g):
 # ---------- BOOK DIRECT ----------
 BD_FAQ = [
     ("Is it safe to book directly on your website?", "Yes. Payments go through our booking system with card processing by a regulated provider, and you receive a confirmation email with the full details of your stay straight away."),
-    ("How does the 15% returning-guest discount work?", f"If you have stayed with us before, enter the code {COUPON} at checkout on our booking site. It applies to direct bookings only."),
     ("What is your cancellation policy?", "Each property shows its cancellation terms on the booking page before you pay. Most of our homes offer free cancellation up to a set number of days before arrival."),
     ("Can I pay in instalments or on arrival?", "Payment is taken online at the time of booking. For stays of a month or more, contact us on WhatsApp and we can agree a schedule."),
     ("Do I get the same service as on Airbnb?", "Better. You deal with our local team from the first message, we can hold dates while you sort flights, and we can arrange transfers, early check-in or extra beds without a platform in the middle."),
@@ -595,11 +594,11 @@ def book_direct():
     crumb_html, crumb_ld = crumbs([("Home", ""), ("Why book direct", "book-direct")])
     body = f"""<section><div class="wrap">{crumb_html}<div class="eyebrow">Book direct</div><h1>The same homes, a better price, a real person on the other end</h1>
 <div class="two" style="margin-top:1.5rem"><div><p style="font-size:1.1rem">Airbnb and Booking.com charge guests and hosts a commission on every stay. When you book on this site that commission disappears, and we pass the difference to you.</p>
-<ul class="check"><li>Our lowest rate for every date, guaranteed</li><li>15% off for returning guests with the code <span class="coupon">{COUPON}</span></li><li>Talk to the local team on WhatsApp before and during your stay</li><li>Transfers, early check-in, extra beds and long-stay rates arranged directly</li><li>Secure online payment and instant confirmation</li></ul>
+<ul class="check"><li>Our lowest rate for every date, guaranteed</li><li>Talk to the local team on WhatsApp before and during your stay</li><li>Transfers, early check-in, extra beds and long-stay rates arranged directly</li><li>Secure online payment and instant confirmation</li></ul>
 <div style="display:flex;gap:.8rem;flex-wrap:wrap"><a class="btn btn-primary" href="{url('properties')}">Find your stay</a><a class="btn btn-wa" href="{WA_URL}" rel="noopener">{WA_ICON} Ask us anything</a></div></div>
-<div><h3>How it works</h3><ol style="padding-left:1.2rem;display:grid;gap:.6rem"><li>Choose a property and click <b>Check availability</b>.</li><li>Pick your dates and number of guests on our booking site.</li><li>Returning guest? Enter <span class="coupon">{COUPON}</span> for 15% off.</li><li>Pay securely. Your confirmation and check-in details arrive by email.</li><li>Message us on WhatsApp for anything else, any time.</li></ol></div></div></div></section>
+<div><h3>How it works</h3><ol style="padding-left:1.2rem;display:grid;gap:.6rem"><li>Choose a property and click <b>Check availability</b>.</li><li>Pick your dates and number of guests on our booking site.</li><li>Pay securely. Your confirmation and check-in details arrive by email.</li><li>Message us on WhatsApp for anything else, any time.</li></ol></div></div></div></section>
 <section class="alt"><div class="wrap"><h2>Questions about booking direct</h2>{faq_html(BD_FAQ)}</div></section>"""
-    write("book-direct", page("book-direct", "Why book direct with Maltese Stays | Best price in Malta", "Book your Malta holiday home directly and skip platform fees: lowest rate guaranteed, 15% off for returning guests with code LCSTAYS, and a local team on WhatsApp 24/7.", body, {"@context": "https://schema.org", "@graph": [crumb_ld, faq_schema(BD_FAQ)]}, active="book-direct"))
+    write("book-direct", page("book-direct", "Why book direct with Maltese Stays | Best price in Malta", "Book your Malta holiday home directly and skip platform fees: lowest rate guaranteed, and a local team on WhatsApp 24/7.", body, {"@context": "https://schema.org", "@graph": [crumb_ld, faq_schema(BD_FAQ)]}, active="book-direct"))
 
 # ---------- ABOUT / CONTACT ----------
 def about():
@@ -635,7 +634,7 @@ def extras():
     sm += "</urlset>\n"
     open(os.path.join(OUT, "sitemap.xml"), "w").write(sm)
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
-    llms = f"# {BRAND}\n\n> Licensed holiday homes, apartments, penthouses and guest house rooms across Malta, managed by Landlord Care, a boutique short-let management company based in Sliema, Malta. Guests book directly at {SITE} for the lowest rate; returning guests get 15% off with code {COUPON}. Contact: WhatsApp {PHONE_DISPLAY}, {EMAIL}.\n\n## Areas\n"
+    llms = f"# {BRAND}\n\n> Licensed holiday homes, apartments, penthouses and guest house rooms across Malta, managed by Landlord Care, a boutique short-let management company based in Sliema, Malta. Guests book directly at {SITE} for the lowest rate. Contact: WhatsApp {PHONE_DISPLAY}, {EMAIL}.\n\n## Areas\n"
     for a in AREAS:
         llms += f"- [{a['name']}]({canon('areas/'+a['slug'])}): {a['short']}. {sum(1 for l in LISTINGS if l['area']==a['slug'])} stays.\n"
     llms += "\n## Properties\n"
