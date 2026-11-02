@@ -288,5 +288,25 @@
   "baths": 1.0,
   "accommodates": 4,
   "airbnb_score": null
+ },
+ {
+  "id": 27780,
+  "nickname": "Duplex St Julians",
+  "title": "Modern Penthouse | Terrace, BBQ | Walk to Bay",
+  "city_name": "Tas-Sliema",
+  "beds": 2.0,
+  "baths": 2.0,
+  "accommodates": 4,
+  "airbnb_score": null
+ },
+ {
+  "id": 31325,
+  "nickname": "Sliema Room 3",
+  "title": "Ensuite Room in Maltese Townhouse, Sliema centre",
+  "city_name": "Sliema",
+  "beds": 1.0,
+  "baths": 1.0,
+  "accommodates": 2,
+  "airbnb_score": null
  }
 ]
