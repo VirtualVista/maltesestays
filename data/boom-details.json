@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 62,
+"from": 59,
 "nrev": 13,
 "avg10": 9.28,
 "revs": [
@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 60,
+"from": 59,
 "nrev": 33,
 "avg10": 9.58,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 73,
+"from": 83,
 "nrev": 37,
 "avg10": 9.95,
 "revs": [
@@ -765,7 +765,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 27,
+"from": 25,
 "nrev": 36,
 "avg10": 9.67,
 "revs": [
@@ -1192,9 +1192,17 @@
 "co": "11:00",
 "minN": 3,
 "from": 45,
-"nrev": 38,
-"avg10": 9.54,
+"nrev": 39,
+"avg10": 9.55,
 "revs": [
+{
+"n": "Benya C.",
+"d": "2026-11-05",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Perfect location ! Jaime is very responsive and trying to make sure we feel right at home",
+"en": true
+},
 {
 "n": "Sara Z.",
 "d": "2026-10-29",
@@ -1233,14 +1241,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "Great location, easy to get to local restaurants, supermarkets, buses, and ferries. The air conditioner helped a lot with the heat at night and the place was pristine when moving in. Jaime was very helpful and responsive whenever I had any questions. Would definitely stay there again!",
-"en": true
-},
-{
-"n": "Katie D.",
-"d": "2026-09-18",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Location couldn’t be more perfect, so central but still quiet. Apartment is fairly basic but has everything needed for a stay and good value for money. Host super helpful, communicated throughout stay and available if any issues. Would highly recommend !!",
 "en": true
 }
 ]
@@ -1571,7 +1571,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 55,
+"from": 54,
 "nrev": 37,
 "avg10": 9.76,
 "revs": [
@@ -1815,7 +1815,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 75,
+"from": 71,
 "nrev": 30,
 "avg10": 9.78,
 "revs": [
@@ -2187,7 +2187,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 24,
+"from": 21,
 "nrev": 29,
 "avg10": 9.55,
 "revs": [
@@ -2642,7 +2642,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 25,
+"from": 22,
 "nrev": 25,
 "avg10": 9.69,
 "revs": [
@@ -2773,7 +2773,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 60,
+"from": 54,
 "nrev": 33,
 "avg10": 9.65,
 "revs": [
@@ -2970,7 +2970,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 24,
+"from": 34,
 "nrev": 25,
 "avg10": 9.13,
 "revs": [
@@ -3221,10 +3221,18 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 65,
-"nrev": 32,
-"avg10": 9.41,
+"from": 67,
+"nrev": 33,
+"avg10": 9.42,
 "revs": [
+{
+"n": "Mackenzie F.",
+"d": "2026-11-05",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Great place to stay!! Modern, clean, and well equipped.",
+"en": true
+},
 {
 "n": "Dean N.",
 "d": "2026-10-07",
@@ -3263,14 +3271,6 @@
 "s": "Booking.com",
 "r": 9.0,
 "t": "Pool and terrace were fantastic and the apartment was really spacious. Excellent facilities, comfy beds and good air con!!",
-"en": true
-},
-{
-"n": "Kyle M.",
-"d": "2026-06-14",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Shalise’s Penthouse is 10/10, would definitely stay again. The place is very clean with all of the amenities required. It is also child friendly, we had our 18 month old and felt safe around the apartment. It is in a great location for Valletta and Silema, around 7 eur in a taxi or you can walk…",
 "en": true
 }
 ]
@@ -3666,8 +3666,8 @@
 "co": "10:00",
 "minN": 4,
 "from": 70,
-"nrev": 15,
-"avg10": 9.47,
+"nrev": 16,
+"avg10": 9.5,
 "revs": [
 {
 "n": "Lana G.",
@@ -3710,11 +3710,11 @@
 "en": true
 },
 {
-"n": "Norbert F.",
-"d": "2026-10-09",
+"n": "Paulina U.",
+"d": "2026-11-04",
 "s": "Airbnb",
 "r": 10.0,
-"t": "Kedves Jaime! Nagyon köszönjük ezt a pár napot hogy eltölthettük nálad. Tiszta szívből ajánlunk bárkinek ,aki Máltára utazik. Egyszer visszatérünk biztosan keresni fogunk! Üdvözlettel: Norbert Farkas",
+"t": "Pobyt w tym apartamencie przebiegł super i bez większych problemów. Wyposażenie kuchni na bardzo wysokim poziomie. Jedyne o co można się przyczepić to jacuzzi które nagrzewało się cały dzień, oraz bardzo słabe ciśnienie wody w prysznicu. Kontakt z gospodarzem idealny, odpisuje bardzo szybko.…",
 "en": false
 }
 ]
