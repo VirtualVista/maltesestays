@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 59,
+"from": 54,
 "nrev": 13,
 "avg10": 9.28,
 "revs": [
@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 59,
+"from": 52,
 "nrev": 33,
 "avg10": 9.58,
 "revs": [
@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 32,
+"from": 41,
 "nrev": 46,
 "avg10": 9.76,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 83,
+"from": 85,
 "nrev": 37,
 "avg10": 9.95,
 "revs": [
@@ -765,7 +765,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 25,
+"from": 24,
 "nrev": 36,
 "avg10": 9.67,
 "revs": [
@@ -1191,7 +1191,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 45,
+"from": 49,
 "nrev": 39,
 "avg10": 9.55,
 "revs": [
@@ -1687,7 +1687,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 22,
+"from": 21,
 "nrev": 17,
 "avg10": 9.59,
 "revs": [
@@ -1815,7 +1815,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 71,
+"from": 60,
 "nrev": 30,
 "avg10": 9.78,
 "revs": [
@@ -2047,7 +2047,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 25,
+"from": 26,
 "nrev": 25,
 "avg10": 9.6,
 "revs": [
@@ -2187,10 +2187,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 21,
-"nrev": 29,
-"avg10": 9.55,
+"from": 31,
+"nrev": 30,
+"avg10": 9.57,
 "revs": [
+{
+"n": "Kārlis D.",
+"d": "2026-11-05",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Our stay was short but great! The instructions were super clear and Jaime made sure that we had everything that we needed! Thanks for everything!",
+"en": true
+},
 {
 "n": "Ec W.",
 "d": "2026-10-19",
@@ -2229,14 +2237,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "Very nice room to stay in, Jaime was very responsive and he accommodated my needs. And I would recommend it to others 😄",
-"en": true
-},
-{
-"n": "Sleman",
-"d": "2026-06-23",
-"s": "Airbnb",
-"r": 9.3,
-"t": "Jamie was a very friendly, welcoming, and responsive host throughout our stay. He always replied quickly and genuinely tried his best to help whenever we needed anything. We experienced a couple of issues with the toilet flushing and the hot water in the shower. Jamie arranged for a plumber to come…",
 "en": true
 }
 ]
@@ -2420,7 +2420,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 27,
+"from": 25,
 "nrev": 28,
 "avg10": 9.66,
 "revs": [
@@ -2530,7 +2530,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 31,
+"from": 30,
 "nrev": 31,
 "avg10": 9.52,
 "revs": [
@@ -2642,7 +2642,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 22,
+"from": 32,
 "nrev": 25,
 "avg10": 9.69,
 "revs": [
@@ -2773,7 +2773,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 54,
+"from": 50,
 "nrev": 33,
 "avg10": 9.65,
 "revs": [
@@ -2886,7 +2886,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 26,
+"from": 27,
 "nrev": 10,
 "avg10": 8.9,
 "revs": [
@@ -3092,7 +3092,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 40,
+"from": 45,
 "nrev": 37,
 "avg10": 9.68,
 "revs": [
@@ -3221,7 +3221,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 67,
+"from": 66,
 "nrev": 33,
 "avg10": 9.42,
 "revs": [
