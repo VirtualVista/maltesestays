@@ -86,9 +86,9 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 54,
-"nrev": 13,
-"avg10": 9.28,
+"from": 47,
+"nrev": 14,
+"avg10": 9.33,
 "revs": [
 {
 "n": "Dejan Z.",
@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 52,
+"from": 43,
 "nrev": 33,
 "avg10": 9.58,
 "revs": [
@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 41,
+"from": 37,
 "nrev": 46,
 "avg10": 9.76,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 85,
+"from": 87,
 "nrev": 37,
 "avg10": 9.95,
 "revs": [
@@ -765,7 +765,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 24,
+"from": 22,
 "nrev": 36,
 "avg10": 9.67,
 "revs": [
@@ -1191,7 +1191,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 49,
+"from": 45,
 "nrev": 39,
 "avg10": 9.55,
 "revs": [
@@ -1571,7 +1571,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 54,
+"from": 52,
 "nrev": 37,
 "avg10": 9.76,
 "revs": [
@@ -1933,7 +1933,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 36,
+"from": 35,
 "nrev": 39,
 "avg10": 9.8,
 "revs": [
@@ -2047,7 +2047,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 26,
+"from": 29,
 "nrev": 25,
 "avg10": 9.6,
 "revs": [
@@ -2187,7 +2187,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 31,
+"from": 20,
 "nrev": 30,
 "avg10": 9.57,
 "revs": [
@@ -2420,10 +2420,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 25,
-"nrev": 28,
-"avg10": 9.66,
+"from": 26,
+"nrev": 29,
+"avg10": 9.67,
 "revs": [
+{
+"n": "Aleksander S.",
+"d": "2026-11-07",
+"s": "Booking.com",
+"r": 10.0,
+"t": "A very pleasant stay! Communication with the staff was quick, smooth, and hassle-free. All the necessary information was",
+"en": true
+},
 {
 "n": "Erinda C.",
 "d": "2026-07-30",
@@ -2462,14 +2470,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "we had a lovely stay here. the flat was so cute and chic. & it was very clean!communication was good with hosts. the location of the flat makes it accessible to boat and bus public transport. can’t recommend it enough",
-"en": true
-},
-{
-"n": "Mollie B.",
-"d": "2026-05-28",
-"s": "Airbnb",
-"r": 9.3,
-"t": "Very nice host. Clean apartment and very accommodating",
 "en": true
 }
 ]
@@ -2530,7 +2530,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 30,
+"from": 29,
 "nrev": 31,
 "avg10": 9.52,
 "revs": [
@@ -2887,8 +2887,8 @@
 "co": "11:00",
 "minN": 5,
 "from": 27,
-"nrev": 10,
-"avg10": 8.9,
+"nrev": 11,
+"avg10": 8.82,
 "revs": [
 {
 "n": "Will A.",
@@ -3221,7 +3221,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 66,
+"from": 65,
 "nrev": 33,
 "avg10": 9.42,
 "revs": [
