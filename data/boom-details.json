@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 43,
+"from": 42,
 "nrev": 33,
 "avg10": 9.58,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 87,
+"from": 88,
 "nrev": 37,
 "avg10": 9.95,
 "revs": [
@@ -765,7 +765,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 22,
+"from": 24,
 "nrev": 36,
 "avg10": 9.67,
 "revs": [
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 26,
+"from": 27,
 "nrev": 20,
 "avg10": 9.28,
 "revs": [
@@ -1571,7 +1571,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 52,
+"from": 50,
 "nrev": 37,
 "avg10": 9.76,
 "revs": [
@@ -1816,9 +1816,17 @@
 "co": "10:00",
 "minN": 3,
 "from": 60,
-"nrev": 30,
+"nrev": 31,
 "avg10": 9.78,
 "revs": [
+{
+"n": "William H.",
+"d": "2026-11-07",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Fantastic stay. I travelled for a few quiet days away with my partner and this was the perfect setting. The roof terrace was absolutely stunning. The rest of the space was beautiful and made our stay.",
+"en": true
+},
 {
 "n": "Christopher M.",
 "d": "2026-09-11",
@@ -1857,14 +1865,6 @@
 "s": "Airbnb",
 "r": 9.3,
 "t": "Het was een erg fijn verblijf, we hebben erg genoten. Rabat is een heel leuk plaatsje met een fijne sfeer. Ook was het zwembad samen met een mooi uitzicht een heel groot pluspunt. De communicatie met de host was heel goed, er werd altijd wel direct gereageerd en er werd hulp geboden waar nodig. In…",
-"en": true
-},
-{
-"n": "Charlotte P.",
-"d": "2026-07-20",
-"s": "Airbnb",
-"r": 9.7,
-"t": "Jaime was super helpful. The house was a great location for Mdina and Rabat had some many lovely and interesting things to see. House very clean. Slight issue with pool but Jaime has it sorted immediately and was so lovely to deal with. Highly recommend",
 "en": true
 }
 ]
@@ -1933,7 +1933,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 35,
+"from": 27,
 "nrev": 39,
 "avg10": 9.8,
 "revs": [
@@ -2047,7 +2047,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 29,
+"from": 28,
 "nrev": 25,
 "avg10": 9.6,
 "revs": [
@@ -2307,7 +2307,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 38,
+"from": 34,
 "nrev": 31,
 "avg10": 9.6,
 "revs": [
@@ -2420,7 +2420,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 26,
+"from": 21,
 "nrev": 29,
 "avg10": 9.67,
 "revs": [
@@ -2773,7 +2773,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 50,
+"from": 66,
 "nrev": 33,
 "avg10": 9.65,
 "revs": [
@@ -2970,7 +2970,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 34,
+"from": 33,
 "nrev": 25,
 "avg10": 9.13,
 "revs": [
