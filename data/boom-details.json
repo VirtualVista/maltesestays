@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 47,
+"from": 46,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 42,
+"from": 41,
 "nrev": 33,
 "avg10": 9.58,
 "revs": [
@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 37,
+"from": 46,
 "nrev": 46,
 "avg10": 9.76,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 88,
+"from": 90,
 "nrev": 37,
 "avg10": 9.95,
 "revs": [
@@ -762,10 +762,10 @@
 "A Gym Is In The Building For Guests To Use",
 "Cupboard"
 ],
-"ci": "16:00",
+"ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 24,
+"from": 21,
 "nrev": 36,
 "avg10": 9.67,
 "revs": [
@@ -1192,8 +1192,8 @@
 "co": "11:00",
 "minN": 3,
 "from": 45,
-"nrev": 39,
-"avg10": 9.55,
+"nrev": 40,
+"avg10": 9.56,
 "revs": [
 {
 "n": "Benya C.",
@@ -1571,10 +1571,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 50,
-"nrev": 37,
+"from": 47,
+"nrev": 38,
 "avg10": 9.76,
 "revs": [
+{
+"n": "Michaela D.",
+"d": "2026-11-09",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Immaculate apartment with comfortable bed and everything we needed for a short stay!",
+"en": true
+},
 {
 "n": "Lana Z.",
 "d": "2026-10-24",
@@ -1613,14 +1621,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "I booked this Airbnb for my parents, and I couldn’t be happier with their experience. The apartment was beautiful, very clean, comfortable, and exactly as described. Most importantly, my parents felt very comfortable and safe throughout their stay, which meant a lot to me. Jaime was incredibly…",
-"en": true
-},
-{
-"n": "John C.",
-"d": "2026-07-06",
-"s": "Airbnb",
-"r": 10.0,
-"t": "The place was very beautiful and exceptionally clean. I loved everything about my stay here. Jaime Miguel was a gracious host and very responsive to all my questions. He is super friendly. I would recommend staying here always!",
 "en": true
 }
 ]
@@ -1815,7 +1815,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 60,
+"from": 82,
 "nrev": 31,
 "avg10": 9.78,
 "revs": [
@@ -1933,7 +1933,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 27,
+"from": 33,
 "nrev": 39,
 "avg10": 9.8,
 "revs": [
@@ -2184,7 +2184,7 @@
 "Crockery & Cutlery",
 "Beach View"
 ],
-"ci": "16:00",
+"ci": "15:00",
 "co": "11:00",
 "minN": 3,
 "from": 20,
@@ -2307,7 +2307,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 34,
+"from": 32,
 "nrev": 31,
 "avg10": 9.6,
 "revs": [
@@ -2420,7 +2420,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 21,
+"from": 25,
 "nrev": 29,
 "avg10": 9.67,
 "revs": [
@@ -2773,7 +2773,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 66,
+"from": 65,
 "nrev": 33,
 "avg10": 9.65,
 "revs": [
@@ -2970,7 +2970,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 33,
+"from": 30,
 "nrev": 25,
 "avg10": 9.13,
 "revs": [
@@ -3221,7 +3221,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 65,
+"from": 151,
 "nrev": 33,
 "avg10": 9.42,
 "revs": [
@@ -3933,8 +3933,17 @@
 "co": "10:00",
 "minN": 4,
 "from": 38,
-"nrev": 0,
-"avg10": null,
-"revs": []
+"nrev": 1,
+"avg10": 10.0,
+"revs": [
+{
+"n": "Caoilfhionn P.",
+"d": "2026-11-09",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Jaime is a wonderful host. From the moment I confirmed my booking, he was attentive and eager to ensure I had everything I needed for a comfortable stay. Jaime’s accommodation is a hidden gem on a quiet street, a perfect base to get anywhere on the island, a short walk to ferry services to Valetta…",
+"en": true
+}
+]
 }
 }
