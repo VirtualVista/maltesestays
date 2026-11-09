@@ -278,6 +278,41 @@ MOSAIC = [_pick(22404, 1), _pick(21750, 2), _pick(26837, 3)]   # Ta' Xbiex terra
 # ---------- helpers ----------
 def esc(s): return html.escape(str(s), quote=True)
 
+TITLE_MAX, META_MAX = 60, 158
+
+def clip_words(s, n):
+    """Cut s to at most n characters at a word boundary, ending with an ellipsis."""
+    s = " ".join(str(s).split())
+    if len(s) <= n: return s
+    cut = s[: n - 1].rsplit(" ", 1)[0].rstrip(" ,;:.")
+    return cut + "\u2026"
+
+def fit_meta(lead, tail, limit=META_MAX):
+    """Description = first sentence(s) of lead + tail facts, kept under the snippet limit."""
+    lead = " ".join(str(lead).split())
+    room = limit - len(tail) - 1
+    if room < 40: return clip_words(f"{lead} {tail}", limit)
+    if len(lead) <= room: return f"{lead} {tail}"
+    sents, out = lead.replace("! ", "!|").replace("? ", "?|").replace(". ", ".|").split("|"), ""
+    for x in sents:
+        if len(out) + len(x) + 1 > room: break
+        out = (out + " " + x).strip()
+    if len(out) < room * 0.6: out = clip_words(lead, room)
+    return f"{out} {tail}"
+
+def prop_title(l):
+    """Short, unique property title: name plus town when it fits in ~60 characters."""
+    name, town = l["name"], l["locality"].split(" (")[0]
+    base = name if town.lower() in name.lower() else f"{name}, {town}"
+    for t in (f"{base}, Malta | Book direct", f"{base}, Malta", base, name):
+        if len(t) <= TITLE_MAX: return t
+    return name
+
+def short_title(t):
+    """Drop the ' | Book direct' style suffix when the title is too long for Google."""
+    if len(t) > TITLE_MAX and " | " in t: return t.rsplit(" | ", 1)[0]
+    return t
+
 def img(pic, w=800, h=600, mode="c_fill"):
     ver, folder, pid = pic.split("|")
     if PREVIEW:
@@ -571,6 +606,7 @@ document.addEventListener('click',function(e){{var a=e.target.closest('a');if(!a
 """
 
 def page(path, title, meta, body, schema=None, og_image=None, active="", extra_head="", mbar=None, og_type="website"):
+    title, meta = short_title(title), (meta if len(meta) <= 160 else clip_words(meta, META_MAX))
     schema_tag = f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>' if schema else ""
     og = og_image or img(HERO_PIC, 1200, 630)
     head = f"""<meta charset="utf-8">
@@ -803,7 +839,7 @@ def property_page(l):
     mbar = f'<div class="mbar">{f"<div class=\"mb-price\">From <b>&euro;{pf}</b><span>/ night</span></div>" if pf else ""}<a class="btn btn-primary" href="{book_url(l)}" rel="noopener">Check availability</a></div>'
     stay = {
         "@type": "VacationRental" if l["type"] == "home" else "LodgingBusiness", "@id": canon("properties/" + l["slug"]) + "#stay",
-        "name": l["name"], "description": l["intro"], "url": canon("properties/" + l["slug"]),
+        "identifier": str(l["id"]), "name": l["name"], "description": l["intro"], "url": canon("properties/" + l["slug"]),
         "image": [img(p, 1200, 900) for p in pics[:8]],
         "address": {"@type": "PostalAddress", "addressLocality": l["locality"], "addressRegion": "Malta", "addressCountry": "MT"},
         "geo": {"@type": "GeoCoordinates", "latitude": lat3, "longitude": lng3},
@@ -814,6 +850,9 @@ def property_page(l):
         "checkinTime": ci, "checkoutTime": co, "petsAllowed": False,
         "brand": {"@id": SITE + "/#org"}, "potentialAction": {"@type": "ReserveAction", "target": book_url(l)},
     }
+    if l["type"] == "home":
+        stay["additionalType"] = {"Penthouse": "Apartment", "Maisonette": "Apartment", "Townhouse": "House"}.get(l["kind"], l["kind"])
+        stay["latitude"], stay["longitude"] = lat3, lng3
     if pf:
         stay["priceRange"] = f"From EUR {pf} per night"
     if nrev:
@@ -821,11 +860,12 @@ def property_page(l):
         stay["review"] = [{"@type": "Review", "author": {"@type": "Person", "name": r["n"]}, "datePublished": r["d"], "reviewBody": r["t"],
                            "reviewRating": {"@type": "Rating", "ratingValue": r["r"], "bestRating": 10, "worstRating": 1}} for r in det.get("revs", [])[:5]]
     schema = {"@context": "https://schema.org", "@graph": [crumb_ld, stay, faq_schema(faq)]}
-    title = f"{l['name']} | {l['kind']} in {l['locality']}, Malta"
-    extra = []
+    title = prop_title(l)
+    extra = [f"Sleeps {l['acc']}."]
     if nrev: extra.append(f"Rated {avg:.1f}/5 by {nrev} guests.")
     if pf: extra.append(f"From EUR {pf}/night.")
-    meta = f"{l['intro'][:120].rsplit(' ',1)[0]}. Sleeps {l['acc']}. {' '.join(extra)} Book direct."
+    extra.append("Book direct.")
+    meta = fit_meta(l["intro"], " ".join(extra))
     write("properties/" + l["slug"], page("properties/" + l["slug"], title, meta, body, schema, og_image=img(pics[0], 1200, 630), active="properties", mbar=mbar))
 
 # ---------- AREAS ----------
