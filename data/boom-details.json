@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 85,
+"from": 84,
 "nrev": 46,
 "avg10": 9.76,
 "revs": [
@@ -765,10 +765,18 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 21,
-"nrev": 36,
-"avg10": 9.67,
+"from": 40,
+"nrev": 37,
+"avg10": 9.68,
 "revs": [
+{
+"n": "Sana G.",
+"d": "2026-11-10",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Everything was great. Great communication and instructions. The location is 👌🏻",
+"en": true
+},
 {
 "n": "Xenia L.",
 "d": "2026-10-31",
@@ -807,14 +815,6 @@
 "s": "Airbnb",
 "r": 9.0,
 "t": "The stay was good and walkable to the commute. I would recommend it.",
-"en": true
-},
-{
-"n": "Kamilė P.",
-"d": "2026-08-03",
-"s": "Airbnb",
-"r": 10.0,
-"t": "We had a wonderful stay! The apartment was clean, comfortable and beautifully decorated. The location was excellent, making it easy to explore Malta and visit all the main attractions. Everything we needed was provided and we felt at home throughout our stay. We would definitely recommend this…",
 "en": true
 }
 ]
@@ -1191,7 +1191,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 45,
+"from": 60,
 "nrev": 40,
 "avg10": 9.56,
 "revs": [
@@ -1321,7 +1321,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 5,
-"from": 65,
+"from": 70,
 "nrev": 29,
 "avg10": 9.62,
 "revs": [
@@ -1438,7 +1438,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 47,
+"from": 50,
 "nrev": 38,
 "avg10": 9.76,
 "revs": [
@@ -1554,7 +1554,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 21,
+"from": 19,
 "nrev": 17,
 "avg10": 9.59,
 "revs": [
@@ -1682,7 +1682,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 82,
+"from": 88,
 "nrev": 31,
 "avg10": 9.78,
 "revs": [
@@ -1800,7 +1800,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 33,
+"from": 36,
 "nrev": 39,
 "avg10": 9.8,
 "revs": [
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 28,
+"from": 33,
 "nrev": 25,
 "avg10": 9.6,
 "revs": [
@@ -2054,7 +2054,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 20,
+"from": 40,
 "nrev": 30,
 "avg10": 9.57,
 "revs": [
@@ -2174,9 +2174,9 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 32,
-"nrev": 31,
-"avg10": 9.6,
+"from": 37,
+"nrev": 32,
+"avg10": 9.61,
 "revs": [
 {
 "n": "Amy W.",
@@ -2287,7 +2287,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 25,
+"from": 39,
 "nrev": 29,
 "avg10": 9.67,
 "revs": [
@@ -2509,7 +2509,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 32,
+"from": 37,
 "nrev": 25,
 "avg10": 9.69,
 "revs": [
@@ -2640,7 +2640,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 65,
+"from": 64,
 "nrev": 33,
 "avg10": 9.65,
 "revs": [
@@ -2753,7 +2753,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 27,
+"from": 40,
 "nrev": 11,
 "avg10": 8.82,
 "revs": [
@@ -2837,7 +2837,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 43,
+"from": 41,
 "nrev": 25,
 "avg10": 9.13,
 "revs": [
@@ -2959,7 +2959,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 45,
+"from": 62,
 "nrev": 37,
 "avg10": 9.68,
 "revs": [
@@ -3230,7 +3230,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 65,
+"from": 60,
 "nrev": 17,
 "avg10": 9.82,
 "revs": [
@@ -3376,7 +3376,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 50,
+"from": 60,
 "nrev": 10,
 "avg10": 9.67,
 "revs": [
@@ -3532,7 +3532,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 70,
+"from": 90,
 "nrev": 16,
 "avg10": 9.5,
 "revs": [
@@ -3702,7 +3702,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 75,
+"from": 65,
 "nrev": 7,
 "avg10": 9.71,
 "revs": [
@@ -3799,7 +3799,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 38,
+"from": 40,
 "nrev": 1,
 "avg10": 10.0,
 "revs": [
