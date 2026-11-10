@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 27,
+"from": 36,
 "nrev": 20,
 "avg10": 9.28,
 "revs": [
@@ -1554,10 +1554,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 19,
-"nrev": 17,
-"avg10": 9.59,
+"from": 30,
+"nrev": 18,
+"avg10": 9.61,
 "revs": [
+{
+"n": "Renata G.",
+"d": "2026-11-10",
+"s": "Airbnb",
+"r": 10.0,
+"t": "I would really recommend this place, it was clean, cozy and had everything you need. I would definitely come back. Thank you so much a really enjoyed my stay in Malta.",
+"en": true
+},
 {
 "n": "Amber B.",
 "d": "2026-09-20",
@@ -1596,14 +1604,6 @@
 "s": "Airbnb",
 "r": 9.7,
 "t": "Really enjoyed our stay! Super easy to get in and everything was as expected and very comfy and looooved the roof terrace! :)",
-"en": true
-},
-{
-"n": "Enrico C.",
-"d": "2025-12-02",
-"s": "Airbnb",
-"r": 10.0,
-"t": "My stay at Miguel's place was really good! The room was clean, the kitchen was very useful, I appreciated that there was coffee available and the cleaning service lady was very nice and helped me whenever I needed something.",
 "en": true
 }
 ]
@@ -2397,7 +2397,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 29,
+"from": 36,
 "nrev": 31,
 "avg10": 9.52,
 "revs": [
@@ -2838,9 +2838,25 @@
 "co": "11:00",
 "minN": 2,
 "from": 41,
-"nrev": 25,
-"avg10": 9.13,
+"nrev": 27,
+"avg10": 9.2,
 "revs": [
+{
+"n": "Cristina R.",
+"d": "2026-11-10",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Nice place, spacious room, and good location. The host was very responsive.",
+"en": true
+},
+{
+"n": "Nora N.",
+"d": "2026-11-10",
+"s": "Airbnb",
+"r": 10.0,
+"t": "I really liked my stay. Really close to the water, to a bus stop and in an absolutely stunning building. Probably the best part of my entire holiday",
+"en": true
+},
 {
 "n": "Anne K.",
 "d": "2026-08-24",
@@ -2871,22 +2887,6 @@
 "s": "Airbnb",
 "r": 9.7,
 "t": "Het palazzo ligt op een ideale locatie, dicht bij restaurantjes en de ferry voor Valletta en toch was de omgeving heel rustig. De kamer was heel ruim, mooi en aangenaam om te verblijven.",
-"en": true
-},
-{
-"n": "Olivia D.",
-"d": "2026-04-28",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Lovely experience staying here! We didn’t mind the walk into the more touristy area’s and it gave us a nice break from the crowd. Place was spacious and comfortable. The host was proactive making sure we were enjoying our stay! Highly reccomend",
-"en": true
-},
-{
-"n": "Yara R.",
-"d": "2026-04-09",
-"s": "Airbnb",
-"r": 9.7,
-"t": "The room was clean and in a nice area with a short walking distance to a bunch of restaurants right at the Harbour and a bus station around the corner. Communication with Shalise was great! Awesome price for a great place and service!",
 "en": true
 }
 ]
