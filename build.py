@@ -699,7 +699,7 @@ HOME_FAQ = [
 ]
 
 def home():
-    featured_ids = [21762, 21750, 26837, 21768, 21770, 22404, 21752, 25738, 21755]
+    featured_ids = [21762, 21750, 26837, 27780, 21770, 22404, 21752, 25738, 21755]
     featured = [l for i in featured_ids for l in LISTINGS if l["id"] == i][:9]
     if len(featured) < 6:
         featured += [l for l in LISTINGS if l not in featured and l["type"] == "home"][: 9 - len(featured)]
@@ -958,6 +958,18 @@ def contact():
 <div><h3>Before you message</h3><ul class="check"><li>Availability and prices are live on each property page under <b>Check availability</b></li><li>Group of more than six? Tell us the dates and we will combine homes or rooms</li><li>Stays of a month or more get a special rate: ask us</li><li>Airport transfers can be arranged for any booking</li></ul></div></div></div></section>"""
     write("contact", page("contact", "Contact Maltese Stays | WhatsApp the local team in Malta", "Contact the Maltese Stays team in Malta on WhatsApp or email for bookings, group stays, long stays and airport transfers.", body, {"@context": "https://schema.org", "@graph": [crumb_ld, org_schema()]}, active="contact"))
 
+# Pages of stays we no longer manage: old URL -> best page to send visitors to (noindex stub + instant redirect)
+RETIRED = {"properties/sliema-seafront-2-bedroom-apartment": "areas/sliema"}
+
+def retired():
+    for old, new in RETIRED.items():
+        if PREVIEW: continue
+        target = canon(new)
+        html_ = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>This stay is no longer available | {BRAND}</title><meta name="robots" content="noindex,follow"><link rel="canonical" href="{target}"><meta http-equiv="refresh" content="0; url={target}"></head><body><p>This stay is no longer available. <a href="{target}">See other places to stay</a>.</p><script>location.replace({json.dumps(target)})</script></body></html>"""
+        fp = os.path.join(OUT, old, "index.html")
+        os.makedirs(os.path.dirname(fp), exist_ok=True)
+        open(fp, "w", encoding="utf-8").write(html_)
+
 def not_found():
     body = f"""<section><div class="wrap"><h1>That page is not here</h1><p>Use the menu above, or start from all properties.</p><a class="btn btn-primary" href="{url('properties')}">All properties</a></div></section>"""
     with open(os.path.join(OUT, "404.html"), "w", encoding="utf-8") as f:
@@ -1060,7 +1072,7 @@ def extras():
 if os.path.exists(OUT):
     shutil.rmtree(OUT)
 os.makedirs(OUT)
-home(); properties(); areas_index(); guest_houses(); book_direct(); about(); contact(); not_found(); extras()
+home(); properties(); areas_index(); guest_houses(); book_direct(); about(); contact(); not_found(); retired(); extras()
 for l in LISTINGS: property_page(l)
 guides_index()
 for g in GUIDES: guide_page(g)
