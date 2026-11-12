@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 47,
+"from": 68,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -234,8 +234,8 @@
 "co": "10:00",
 "minN": 3,
 "from": 100,
-"nrev": 33,
-"avg10": 9.58,
+"nrev": 34,
+"avg10": 9.59,
 "revs": [
 {
 "n": "Ahmed A.",
@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 80,
+"from": 81,
 "nrev": 46,
 "avg10": 9.76,
 "revs": [
@@ -626,8 +626,8 @@
 "co": "10:00",
 "minN": 3,
 "from": 150,
-"nrev": 36,
-"avg10": 9.9,
+"nrev": 37,
+"avg10": 9.85,
 "revs": [
 {
 "n": "Sarah C.",
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 36,
+"from": 37,
 "nrev": 20,
 "avg10": 9.28,
 "revs": [
@@ -1439,8 +1439,8 @@
 "co": "11:00",
 "minN": 3,
 "from": 50,
-"nrev": 38,
-"avg10": 9.76,
+"nrev": 39,
+"avg10": 9.77,
 "revs": [
 {
 "n": "Michaela D.",
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 33,
+"from": 32,
 "nrev": 25,
 "avg10": 9.6,
 "revs": [
@@ -2288,8 +2288,8 @@
 "co": "11:00",
 "minN": 2,
 "from": 39,
-"nrev": 29,
-"avg10": 9.67,
+"nrev": 30,
+"avg10": 9.68,
 "revs": [
 {
 "n": "Aleksander S.",
@@ -2397,7 +2397,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 31,
+"from": 30,
 "nrev": 31,
 "avg10": 9.52,
 "revs": [
@@ -2640,10 +2640,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 64,
-"nrev": 33,
-"avg10": 9.65,
+"from": 63,
+"nrev": 34,
+"avg10": 9.66,
 "revs": [
+{
+"n": "Ivan R.",
+"d": "2026-11-11",
+"s": "Booking.com",
+"r": 10.0,
+"t": "Nice and cozy! Nice and cozy flat! It has everything you need!",
+"en": true
+},
 {
 "n": "Ben C.",
 "d": "2026-10-23",
@@ -2682,14 +2690,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "It was a very lovely place I would visit again if I come back to Malta",
-"en": true
-},
-{
-"n": "Gabriella M.",
-"d": "2026-07-19",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Absolutely perfect. Not far from the clubs and bars which is ideal as girls on their own, and there is a Spar literally across the road which has all essentials. During the first night the air-con in the bedroom remote control batteries died. Jaime was super prompt to help us fix the issue with…",
 "en": true
 }
 ]
@@ -2837,7 +2837,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 42,
+"from": 41,
 "nrev": 27,
 "avg10": 9.2,
 "revs": [
@@ -2959,7 +2959,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 62,
+"from": 60,
 "nrev": 37,
 "avg10": 9.68,
 "revs": [
@@ -3088,7 +3088,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 153,
+"from": 154,
 "nrev": 33,
 "avg10": 9.42,
 "revs": [
