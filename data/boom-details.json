@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 81,
+"from": 80,
 "nrev": 46,
 "avg10": 9.76,
 "revs": [
@@ -626,9 +626,17 @@
 "co": "10:00",
 "minN": 3,
 "from": 150,
-"nrev": 37,
+"nrev": 38,
 "avg10": 9.85,
 "revs": [
+{
+"n": "Suzanne Y.",
+"d": "2026-11-13",
+"s": "Airbnb",
+"r": 10.0,
+"t": "We loved staying at this comfortable, clean apartment. Location was great and very quite at night. Beds were good and the kitchen had everything you needed. Jaime responded to messages very quickly and although there was nothing we needed him for we were reassured if we did he would be super…",
+"en": true
+},
 {
 "n": "Sarah C.",
 "d": "2026-10-24",
@@ -667,14 +675,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "Great Value, Great Location, perfect and walkable… Super clean and well kept",
-"en": true
-},
-{
-"n": "Henry J.",
-"d": "2026-09-08",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Walking distance from center of Valletta, in a very quiet street, and in an old quiet typical Valletta's building style. Recommended for a family with 2 kids as one very large main room and a small 2 bed bedroom. The leaving is spacious. No terrasse, nor open view however. Quiet environment. Air…",
 "en": true
 }
 ]
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 37,
+"from": 39,
 "nrev": 20,
 "avg10": 9.28,
 "revs": [
@@ -1682,7 +1682,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 88,
+"from": 87,
 "nrev": 31,
 "avg10": 9.78,
 "revs": [
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 32,
+"from": 31,
 "nrev": 25,
 "avg10": 9.6,
 "revs": [
@@ -2640,7 +2640,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 63,
+"from": 60,
 "nrev": 34,
 "avg10": 9.66,
 "revs": [
@@ -2960,9 +2960,17 @@
 "co": "10:00",
 "minN": 4,
 "from": 60,
-"nrev": 37,
+"nrev": 38,
 "avg10": 9.68,
 "revs": [
+{
+"n": "Marina M.",
+"d": "2026-11-13",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Jaime’s house was great. Good location close to everything needed. Jaimie was very helpful communicative. The house was clean and very well equipped for long term stays. We will definitely stay with Jaimie in the future.",
+"en": true
+},
 {
 "n": "Adam F.",
 "d": "2026-10-14",
@@ -3001,14 +3009,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "The apartment was very nice, clean and exactly what we had imagined beforehand. Dealing with some difficulties, the host did not have control over, the host still was always very quick to respond and help think with us about solutions! We had a lovely stay and would recommend others to stay with…",
-"en": true
-},
-{
-"n": "Camila M.",
-"d": "2026-06-18",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Stay was great! The location was perfect for getting out in St Julians and well connected. The house was perfect for us and completed our holiday, the balcony was our favourite. Only downside was that the wifi didn’t work, but we had very responsive communication on this!",
 "en": true
 }
 ]
@@ -3088,9 +3088,9 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 154,
-"nrev": 33,
-"avg10": 9.42,
+"from": 150,
+"nrev": 34,
+"avg10": 9.44,
 "revs": [
 {
 "n": "Mackenzie F.",
