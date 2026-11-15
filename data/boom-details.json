@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 68,
+"from": 69,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -379,8 +379,8 @@
 "co": "10:00",
 "minN": 4,
 "from": 80,
-"nrev": 46,
-"avg10": 9.76,
+"nrev": 47,
+"avg10": 9.77,
 "revs": [
 {
 "n": "Daniel K.",
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 42,
+"from": 41,
 "nrev": 20,
 "avg10": 9.28,
 "revs": [
@@ -1322,8 +1322,8 @@
 "co": "10:00",
 "minN": 5,
 "from": 70,
-"nrev": 29,
-"avg10": 9.62,
+"nrev": 30,
+"avg10": 9.57,
 "revs": [
 {
 "n": "Stephanie W.",
@@ -1915,8 +1915,8 @@
 "co": "11:00",
 "minN": 5,
 "from": 30,
-"nrev": 25,
-"avg10": 9.6,
+"nrev": 26,
+"avg10": 9.62,
 "revs": [
 {
 "n": "S K.",
@@ -2174,7 +2174,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 37,
+"from": 36,
 "nrev": 32,
 "avg10": 9.61,
 "revs": [
@@ -2287,7 +2287,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 39,
+"from": 38,
 "nrev": 30,
 "avg10": 9.68,
 "revs": [
@@ -2509,7 +2509,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 36,
+"from": 37,
 "nrev": 25,
 "avg10": 9.69,
 "revs": [
@@ -3231,9 +3231,17 @@
 "co": "10:00",
 "minN": 4,
 "from": 60,
-"nrev": 17,
-"avg10": 9.82,
+"nrev": 18,
+"avg10": 9.83,
 "revs": [
+{
+"n": "Tanel P.",
+"d": "2026-11-15",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Jaime’s place was very nice, the location was excellent, walking distance from the waterfront and restaurants. No issues, for the price it is a no-brainer.",
+"en": true
+},
 {
 "n": "Kevin. F.",
 "d": "2026-10-15",
@@ -3272,14 +3280,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "It was amazing and pleasure to stay at your apartment. Everything was great and staff was very nice and kindly!",
-"en": true
-},
-{
-"n": "Holly K.",
-"d": "2026-07-13",
-"s": "Airbnb",
-"r": 9.7,
-"t": "Jaime was great, super helpful and clean air bnb. Good location and view of the sea.",
 "en": true
 }
 ]
