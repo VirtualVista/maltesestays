@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 100,
+"from": 95,
 "nrev": 34,
 "avg10": 9.59,
 "revs": [
@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 80,
+"from": 75,
 "nrev": 47,
 "avg10": 9.77,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 90,
+"from": 85,
 "nrev": 37,
 "avg10": 9.95,
 "revs": [
@@ -625,7 +625,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 150,
+"from": 135,
 "nrev": 38,
 "avg10": 9.85,
 "revs": [
@@ -765,9 +765,9 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 40,
-"nrev": 37,
-"avg10": 9.68,
+"from": 35,
+"nrev": 38,
+"avg10": 9.63,
 "revs": [
 {
 "n": "Sana G.",
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 41,
+"from": 38,
 "nrev": 20,
 "avg10": 9.28,
 "revs": [
@@ -1438,7 +1438,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 50,
+"from": 52,
 "nrev": 39,
 "avg10": 9.77,
 "revs": [
@@ -2174,7 +2174,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 36,
+"from": 37,
 "nrev": 32,
 "avg10": 9.61,
 "revs": [
@@ -2287,7 +2287,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 38,
+"from": 39,
 "nrev": 30,
 "avg10": 9.68,
 "revs": [
@@ -2753,7 +2753,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 40,
+"from": 34,
 "nrev": 11,
 "avg10": 8.82,
 "revs": [
@@ -3088,7 +3088,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 150,
+"from": 140,
 "nrev": 34,
 "avg10": 9.44,
 "revs": [
@@ -3230,10 +3230,18 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 60,
-"nrev": 18,
-"avg10": 9.83,
+"from": 52,
+"nrev": 19,
+"avg10": 9.84,
 "revs": [
+{
+"n": "Jiwon C.",
+"d": "2026-11-16",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Everything about Jamie’s place was perfect. From before check-in and throughout our entire stay, Jamie checked in to make sure everything was in good order and that we didn’t have any issues. The location was excellent for exploring local tourist attractions. The unit was on the 6th and 7th floors…",
+"en": true
+},
 {
 "n": "Tanel P.",
 "d": "2026-11-15",
@@ -3272,14 +3280,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "Great place and location, definitely recommend",
-"en": true
-},
-{
-"n": "David P.",
-"d": "2026-07-20",
-"s": "Airbnb",
-"r": 10.0,
-"t": "It was amazing and pleasure to stay at your apartment. Everything was great and staff was very nice and kindly!",
 "en": true
 }
 ]
@@ -3532,7 +3532,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 90,
+"from": 82,
 "nrev": 16,
 "avg10": 9.5,
 "revs": [
@@ -3702,7 +3702,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 65,
+"from": 56,
 "nrev": 7,
 "avg10": 9.71,
 "revs": [
@@ -3799,7 +3799,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 40,
+"from": 38,
 "nrev": 1,
 "avg10": 10.0,
 "revs": [
