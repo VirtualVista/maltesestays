@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 69,
+"from": 68,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -900,10 +900,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 38,
-"nrev": 20,
-"avg10": 9.28,
+"from": 40,
+"nrev": 21,
+"avg10": 9.27,
 "revs": [
+{
+"n": "Cosmin V.",
+"d": "2026-11-18",
+"s": "Booking.com",
+"r": 9.0,
+"t": "the location was good, the little rooftop terrace and the kitchen were more than welcome and helped make the stay pleasant. the bus station is rather close, you have markets in proximity also",
+"en": true
+},
 {
 "n": "Ariel C.",
 "d": "2026-05-15",
@@ -942,14 +950,6 @@
 "s": "Airbnb",
 "r": 9.7,
 "t": "We really enjoyed our stay! The apartment is in a beautiful and quiet neighborhood, yet close to everything, with easy access to buses and the ferry. It was actually more spacious than the photos suggest, clean, and very comfortable. The bed was cozy, the TV worked well, and the cute decor made it…",
-"en": true
-},
-{
-"n": "Salvatore C.",
-"d": "2025-11-30",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Very good experience in very good place. The room is located in a strategic point of the village extremely near to the harbor. Jaime was really fast to respond and so available for everything! Lovely roof with insane characteristic view. I recommend it",
 "en": true
 }
 ]
@@ -2287,7 +2287,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 38,
+"from": 39,
 "nrev": 30,
 "avg10": 9.68,
 "revs": [
@@ -2397,7 +2397,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 28,
-"from": 30,
+"from": 28,
 "nrev": 31,
 "avg10": 9.52,
 "revs": [
@@ -2641,8 +2641,8 @@
 "co": "11:00",
 "minN": 3,
 "from": 60,
-"nrev": 34,
-"avg10": 9.66,
+"nrev": 35,
+"avg10": 9.61,
 "revs": [
 {
 "n": "Ivan R.",
@@ -3702,7 +3702,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 56,
+"from": 55,
 "nrev": 7,
 "avg10": 9.71,
 "revs": [
