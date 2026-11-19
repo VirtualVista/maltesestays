@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 68,
+"from": 67,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 85,
+"from": 90,
 "nrev": 38,
 "avg10": 9.95,
 "revs": [
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 31,
+"from": 40,
 "nrev": 26,
 "avg10": 9.62,
 "revs": [
@@ -2838,9 +2838,17 @@
 "co": "11:00",
 "minN": 2,
 "from": 40,
-"nrev": 27,
-"avg10": 9.2,
+"nrev": 28,
+"avg10": 9.23,
 "revs": [
+{
+"n": "Artjoms O.",
+"d": "2026-11-19",
+"s": "Airbnb",
+"r": 10.0,
+"t": "It is really good place to stay for solo travellers or with friend, public transport is just like not even 1min walk away. It is really quiet at night no one disturbs you. But inside it is tiny walls so you can hear neighbours a little bit. And checked in I saw that I had everywhere stains on my…",
+"en": true
+},
 {
 "n": "Cristina R.",
 "d": "2026-11-10",
@@ -2879,14 +2887,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "I had a fantastic stay and would absolutely come back! The accommodation is located in a beautiful traditional Maltese townhouse full of character and authentic charm. Of course, as with many historic buildings, there are a few signs of age and use, but for me that only added to the atmosphere and…",
-"en": true
-},
-{
-"n": "Katoo B.",
-"d": "2026-05-13",
-"s": "Airbnb",
-"r": 9.7,
-"t": "Het palazzo ligt op een ideale locatie, dicht bij restaurantjes en de ferry voor Valletta en toch was de omgeving heel rustig. De kamer was heel ruim, mooi en aangenaam om te verblijven.",
 "en": true
 }
 ]
