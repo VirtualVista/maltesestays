@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 67,
+"from": 66,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -626,9 +626,17 @@
 "co": "10:00",
 "minN": 3,
 "from": 135,
-"nrev": 38,
+"nrev": 39,
 "avg10": 9.85,
 "revs": [
+{
+"n": "Safia S.",
+"d": "2026-11-20",
+"s": "Airbnb",
+"r": 10.0,
+"t": "We loved our stay here. Beautiful decorations and quiet although central.",
+"en": true
+},
 {
 "n": "Suzanne Y.",
 "d": "2026-11-13",
@@ -667,14 +675,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "We had a great stay in Valletta. Check-in was clear and easy, and Jaime was fantastic - super responsive and helpful throughout our trip. The location was perfect, away from the noisy center of town so it was peaceful, but a quick walk into the main area and right near swimming spots and the boats…",
-"en": true
-},
-{
-"n": "Charles M.",
-"d": "2026-09-11",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Great Value, Great Location, perfect and walkable… Super clean and well kept",
 "en": true
 }
 ]
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 40,
+"from": 38,
 "nrev": 26,
 "avg10": 9.62,
 "revs": [
@@ -2509,7 +2509,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 36,
+"from": 37,
 "nrev": 25,
 "avg10": 9.69,
 "revs": [
@@ -2753,7 +2753,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 30,
+"from": 31,
 "nrev": 11,
 "avg10": 8.82,
 "revs": [
