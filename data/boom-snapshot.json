@@ -290,6 +290,36 @@
   "airbnb_score": null
  },
  {
+  "id": 29976,
+  "nickname": "7 Ta Turu Msida",
+  "title": "Maltese-style 2bd, ensuite & balcony | Ta' Turu 7",
+  "city_name": "L-Imsida",
+  "beds": 2.0,
+  "baths": 2.0,
+  "accommodates": 4,
+  "airbnb_score": null
+ },
+ {
+  "id": 29977,
+  "nickname": "Ta Turu Apartments",
+  "title": "Two side-by-side Maltese apartments | Sleeps 8",
+  "city_name": "L-Imsida",
+  "beds": 4.0,
+  "baths": 4.0,
+  "accommodates": 8,
+  "airbnb_score": null
+ },
+ {
+  "id": 29978,
+  "nickname": "8 Ta Turu Msida",
+  "title": "Maltese-style 2bd, ensuite & balcony | Ta' Turu 8",
+  "city_name": "L-Imsida",
+  "beds": 2.0,
+  "baths": 2.0,
+  "accommodates": 4,
+  "airbnb_score": null
+ },
+ {
   "id": 31325,
   "nickname": "Sliema Room 3",
   "title": "Ensuite Room in Maltese Townhouse, Sliema centre",
