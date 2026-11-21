@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 66,
+"from": 62,
 "nrev": 14,
 "avg10": 9.33,
 "revs": [
@@ -379,7 +379,7 @@
 "co": "10:00",
 "minN": 4,
 "from": 75,
-"nrev": 47,
+"nrev": 48,
 "avg10": 9.77,
 "revs": [
 {
@@ -505,7 +505,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 90,
+"from": 85,
 "nrev": 38,
 "avg10": 9.95,
 "revs": [
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 40,
+"from": 39,
 "nrev": 21,
 "avg10": 9.27,
 "revs": [
@@ -1438,7 +1438,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 53,
+"from": 54,
 "nrev": 39,
 "avg10": 9.77,
 "revs": [
@@ -1555,8 +1555,8 @@
 "co": "11:00",
 "minN": 28,
 "from": 30,
-"nrev": 18,
-"avg10": 9.61,
+"nrev": 19,
+"avg10": 9.63,
 "revs": [
 {
 "n": "Renata G.",
@@ -2509,7 +2509,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 37,
+"from": 36,
 "nrev": 25,
 "avg10": 9.69,
 "revs": [
@@ -3533,9 +3533,17 @@
 "co": "10:00",
 "minN": 4,
 "from": 82,
-"nrev": 16,
-"avg10": 9.5,
+"nrev": 17,
+"avg10": 9.53,
 "revs": [
+{
+"n": "Sharna P.",
+"d": "2026-11-20",
+"s": "Airbnb",
+"r": 10.0,
+"t": "This was my first time abroad with my 17 month daughter, the place felt like home and was spotless. The guys couldn't do enough to help. They really made us feel welcome. Thank you again we hope to be back next year.",
+"en": true
+},
 {
 "n": "Lana G.",
 "d": "2026-09-24",
@@ -3575,14 +3583,6 @@
 "r": 9.0,
 "t": "The apartment is tastefully designed and decorated, and everything was practically brand-new when I stayed there. Jaime and Kayden provided us with all the information we needed, and Daniel (the owner) deserves a special mention for being so attentive and helping us in person. The location is very…",
 "en": true
-},
-{
-"n": "Paulina U.",
-"d": "2026-11-04",
-"s": "Airbnb",
-"r": 10.0,
-"t": "Pobyt w tym apartamencie przebiegł super i bez większych problemów. Wyposażenie kuchni na bardzo wysokim poziomie. Jedyne o co można się przyczepić to jacuzzi które nagrzewało się cały dzień, oraz bardzo słabe ciśnienie wody w prysznicu. Kontakt z gospodarzem idealny, odpisuje bardzo szybko.…",
-"en": false
 }
 ]
 },
