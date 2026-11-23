@@ -851,7 +851,12 @@ def property_page(l):
         "brand": {"@id": SITE + "/#org"}, "potentialAction": {"@type": "ReserveAction", "target": book_url(l)},
     }
     if l["type"] == "home":
-        stay["additionalType"] = {"Penthouse": "Apartment", "Maisonette": "Apartment", "Townhouse": "House"}.get(l["kind"], l["kind"])
+        # Google only accepts a fixed list of vacation rental types
+        vr_types = ("Apartment", "Bungalow", "Cabin", "Chalet", "Cottage", "Gite", "HolidayVillageRental", "House", "Villa", "VacationRental")
+        at = {"Penthouse": "Apartment", "Maisonette": "Apartment", "Townhouse": "House"}.get(l["kind"], l["kind"])
+        if at not in vr_types:
+            at = "Apartment" if "apartment" in str(at).lower() else "VacationRental"
+        stay["additionalType"] = at
         stay["latitude"], stay["longitude"] = lat3, lng3
     if pf:
         stay["priceRange"] = f"From EUR {pf} per night"
@@ -865,7 +870,7 @@ def property_page(l):
     if nrev: extra.append(f"Rated {avg:.1f}/5 by {nrev} guests.")
     if pf: extra.append(f"From EUR {pf}/night.")
     extra.append("Book direct.")
-    meta = fit_meta(l["intro"], " ".join(extra))
+    meta = fit_meta(l.get("meta_lead") or l["intro"], " ".join(extra))  # meta_lead: optional, keeps near-twin listings unique
     write("properties/" + l["slug"], page("properties/" + l["slug"], title, meta, body, schema, og_image=img(pics[0], 1200, 630), active="properties", mbar=mbar))
 
 # ---------- AREAS ----------
