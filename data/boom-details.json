@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 57,
+"from": 58,
 "nrev": 15,
 "avg10": 9.38,
 "revs": [
@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 95,
+"from": 80,
 "nrev": 34,
 "avg10": 9.59,
 "revs": [
@@ -378,7 +378,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 75,
+"from": 65,
 "nrev": 48,
 "avg10": 9.77,
 "revs": [
@@ -625,7 +625,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 135,
+"from": 115,
 "nrev": 39,
 "avg10": 9.85,
 "revs": [
@@ -765,7 +765,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 35,
+"from": 30,
 "nrev": 38,
 "avg10": 9.63,
 "revs": [
@@ -900,7 +900,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 36,
+"from": 34,
 "nrev": 21,
 "avg10": 9.27,
 "revs": [
@@ -1438,7 +1438,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 53,
+"from": 54,
 "nrev": 39,
 "avg10": 9.77,
 "revs": [
@@ -1683,8 +1683,8 @@
 "co": "10:00",
 "minN": 3,
 "from": 85,
-"nrev": 32,
-"avg10": 9.79,
+"nrev": 33,
+"avg10": 9.74,
 "revs": [
 {
 "n": "William H.",
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 34,
+"from": 32,
 "nrev": 26,
 "avg10": 9.62,
 "revs": [
@@ -2054,7 +2054,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 40,
+"from": 37,
 "nrev": 30,
 "avg10": 9.57,
 "revs": [
@@ -2287,7 +2287,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 39,
+"from": 36,
 "nrev": 30,
 "avg10": 9.68,
 "revs": [
@@ -2398,8 +2398,8 @@
 "co": "11:00",
 "minN": 28,
 "from": 28,
-"nrev": 31,
-"avg10": 9.52,
+"nrev": 32,
+"avg10": 9.53,
 "revs": [
 {
 "n": "Min Z.",
@@ -2510,9 +2510,17 @@
 "co": "11:00",
 "minN": 2,
 "from": 37,
-"nrev": 25,
-"avg10": 9.69,
+"nrev": 26,
+"avg10": 9.71,
 "revs": [
+{
+"n": "Lilly S.",
+"d": "2026-11-24",
+"s": "Airbnb",
+"r": 10.0,
+"t": "We had a lovely stay! 😊 Shalise was so friendly and helpful, making us feel very welcome. The place and the room are great, exactly as described. The location is perfect – peaceful and charming. We loved the local atmosphere, away from the tourist crowds, yet with easy access to Valletta. A great…",
+"en": true
+},
 {
 "n": "Kassandre J.",
 "d": "2026-10-18",
@@ -2551,14 +2559,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "The Airbnb is in a great location to the bus stop, very easy to get around to Valletta and St. Julian’s where you can find so many great restaurants. The stay itself was exactly as described, it was very very spacious, very clean and had everything we needed (Hairdryer, linens, soaps, laundry). It…",
-"en": true
-},
-{
-"n": "Klarens B.",
-"d": "2026-05-20",
-"s": "Booking.com",
-"r": 10.0,
-"t": "Everything was good..the staff was so helpful. The room was clean enough to provide comfort stay.",
 "en": true
 }
 ]
@@ -3088,7 +3088,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 115,
+"from": 95,
 "nrev": 34,
 "avg10": 9.44,
 "revs": [
@@ -3532,7 +3532,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 82,
+"from": 65,
 "nrev": 17,
 "avg10": 9.53,
 "revs": [
@@ -3702,7 +3702,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 55,
+"from": 50,
 "nrev": 7,
 "avg10": 9.71,
 "revs": [
@@ -3799,7 +3799,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 38,
+"from": 32,
 "nrev": 1,
 "avg10": 10.0,
 "revs": [
