@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 58,
+"from": 57,
 "nrev": 15,
 "avg10": 9.38,
 "revs": [
@@ -1438,7 +1438,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 54,
+"from": 53,
 "nrev": 39,
 "avg10": 9.77,
 "revs": [
@@ -1914,7 +1914,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 32,
+"from": 30,
 "nrev": 26,
 "avg10": 9.62,
 "revs": [
@@ -2509,7 +2509,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 2,
-"from": 37,
+"from": 36,
 "nrev": 26,
 "avg10": 9.71,
 "revs": [
@@ -2754,8 +2754,8 @@
 "co": "11:00",
 "minN": 5,
 "from": 30,
-"nrev": 11,
-"avg10": 8.82,
+"nrev": 12,
+"avg10": 8.83,
 "revs": [
 {
 "n": "Will A.",
@@ -2764,6 +2764,14 @@
 "r": 10.0,
 "t": "The private room was exactly as described, clean and ready to relax upon check-in. The location is great and in walking distance to multiple restaurants and waterfronts. Jamie was responsive anytime I had a question, would definitely recommend and stay again!",
 "en": true
+},
+{
+"n": "Carlos R.",
+"d": "2026-11-25",
+"s": "Booking.com",
+"r": 9.0,
+"t": "Volveríamos a repetir en caso de volver a Malta Habitación bien situado en la zona deseada y condiciones de la habitación en perfecto estado (limpieza, ducha, cama).",
+"en": false
 },
 {
 "n": "Andreas B.",
