@@ -989,7 +989,7 @@ def guides_index():
     crumb_html, crumb_ld = crumbs([("Home", ""), ("Malta guides", "guides")])
     items = "".join(f"""<a class="card" href="{url('guides/'+g['slug'])}"><div class="ph"><img src="{img(area_pic(g['hero_area']), 640, 480)}" alt="{esc(g['title'])}" loading="lazy" width="640" height="480"></div><div class="body"><span class="kind">Guide</span><h3>{esc(g['title'])}</h3><p class="small" style="margin:0">{esc(g['meta'][:140].rsplit(' ',1)[0])}.</p></div></a>""" for g in GUIDES)
     body = f"""<section><div class="wrap">{crumb_html}<div class="eyebrow">Plan your trip</div><h1>Malta travel guides from the local team</h1><p class="lead">Practical advice from people who live in Malta and look after homes all over the island.</p><div class="guide-cards" style="margin-top:1.5rem">{items}</div></div></section>"""
-    write("guides", page("guides", "Malta travel guides | Maltese Stays", "Local guides to planning a trip to Malta: where to stay, Valletta or Sliema, and what to expect in winter.", body, {"@context": "https://schema.org", "@graph": [crumb_ld]}, active="guides"))
+    write("guides", page("guides", "Malta travel guides | Maltese Stays", "Local guides to planning a trip to Malta: where to stay, Valletta or Sliema, Malta in winter, long stays and trips for couples.", body, {"@context": "https://schema.org", "@graph": [crumb_ld]}, active="guides"))
 
 def guide_page(g):
     crumb_html, crumb_ld = crumbs([("Home", ""), ("Malta guides", "guides"), (g["title"], "guides/" + g["slug"])])
@@ -1011,6 +1011,9 @@ def guide_page(g):
             if sec.get("area") == l["area"] and l["type"] == "home" and l not in picks:
                 picks.append(l); break
     picks = picks[:3]
+    if g.get("picks"):  # optional hand-picked listing ids
+        by_id = {l["id"]: l for l in LISTINGS}
+        picks = [by_id[i] for i in g["picks"] if i in by_id][:6]
     hero = img(area_pic(g["hero_area"]), 1800, 700)
     body = f"""<div class="hero hero-small"><img src="{hero}" alt="" width="1800" height="700"><div class="wrap">{crumb_html.replace('class="crumbs"','class="crumbs" style="color:#cfe0ff"')}<div class="eyebrow">Malta guide</div><h1>{esc(g['title'])}</h1></div></div>
 <section><div class="wrap"><article class="article"><div class="tldr"><p><b>In short:</b> {esc(g['tldr'])}</p></div>{''.join(parts)}
