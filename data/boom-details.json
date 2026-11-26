@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 57,
+"from": 58,
 "nrev": 15,
 "avg10": 9.38,
 "revs": [
@@ -233,7 +233,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 3,
-"from": 80,
+"from": 85,
 "nrev": 34,
 "avg10": 9.59,
 "revs": [
@@ -1438,10 +1438,18 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 53,
-"nrev": 39,
-"avg10": 9.77,
+"from": 51,
+"nrev": 40,
+"avg10": 9.78,
 "revs": [
+{
+"n": "Khalilah H.",
+"d": "2026-11-25",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Place was amazingly located, near to 3 city centres. Place is beautiful, love the blue ceiling light. Would probably be prettier if there are more such lights 😊 Also very clean & comfortable. Would come back here next time! Just lacking washing machine, otherwise it's a perfect place",
+"en": true
+},
 {
 "n": "Michaela D.",
 "d": "2026-11-09",
@@ -1480,14 +1488,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "Apartment was wonderful, very clean. Jaime is a really professional guy!! Apartman us for every recommendation !",
-"en": true
-},
-{
-"n": "Klea P.",
-"d": "2026-07-18",
-"s": "Airbnb",
-"r": 10.0,
-"t": "I booked this Airbnb for my parents, and I couldn’t be happier with their experience. The apartment was beautiful, very clean, comfortable, and exactly as described. Most importantly, my parents felt very comfortable and safe throughout their stay, which meant a lot to me. Jaime was incredibly…",
 "en": true
 }
 ]
@@ -2398,9 +2398,17 @@
 "co": "11:00",
 "minN": 28,
 "from": 28,
-"nrev": 32,
-"avg10": 9.53,
+"nrev": 33,
+"avg10": 9.55,
 "revs": [
+{
+"n": "Irina P.",
+"d": "2026-11-26",
+"s": "Expedia",
+"r": 10.0,
+"t": "We really enjoyed our stay! The location of this property is wonderful and we will definitely return. Highly recommend!",
+"en": true
+},
 {
 "n": "Min Z.",
 "d": "2026-10-18",
@@ -2439,14 +2447,6 @@
 "s": "Airbnb",
 "r": 10.0,
 "t": "Amazing cosy place right in city , walkable and host very nice and responsive",
-"en": true
-},
-{
-"n": "Kristyna K.",
-"d": "2026-03-02",
-"s": "Airbnb",
-"r": 9.7,
-"t": "Missing a window and some of the furniture is a bit wonky but overall it was a great stay and great host! Would stay again:)",
 "en": true
 }
 ]
@@ -2753,7 +2753,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 5,
-"from": 30,
+"from": 31,
 "nrev": 12,
 "avg10": 8.83,
 "revs": [
@@ -3710,7 +3710,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 50,
+"from": 51,
 "nrev": 7,
 "avg10": 9.71,
 "revs": [
@@ -3930,7 +3930,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 55,
+"from": 49,
 "nrev": 0,
 "avg10": null,
 "revs": []
@@ -4057,7 +4057,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 105,
+"from": 95,
 "nrev": 0,
 "avg10": null,
 "revs": []
@@ -4170,7 +4170,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 55,
+"from": 49,
 "nrev": 0,
 "avg10": null,
 "revs": []
