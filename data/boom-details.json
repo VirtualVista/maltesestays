@@ -86,7 +86,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 58,
+"from": 63,
 "nrev": 15,
 "avg10": 9.38,
 "revs": [
@@ -1438,7 +1438,7 @@
 "ci": "16:00",
 "co": "11:00",
 "minN": 3,
-"from": 51,
+"from": 50,
 "nrev": 40,
 "avg10": 9.78,
 "revs": [
@@ -1915,8 +1915,8 @@
 "co": "11:00",
 "minN": 5,
 "from": 30,
-"nrev": 26,
-"avg10": 9.62,
+"nrev": 27,
+"avg10": 9.63,
 "revs": [
 {
 "n": "S K.",
@@ -1951,19 +1951,19 @@
 "en": true
 },
 {
+"n": "Dominika R.",
+"d": "2026-11-26",
+"s": "Airbnb",
+"r": 10.0,
+"t": "Serdecznie polecam ten nocleg! Świetna lokalizacja, spokojna okolica, apartament wyglądał jak na zdjęciach. Super komunikacja z właścicielem. Nocleg czysty, kuchnia świetnie wyposażona, a na dachu taras z widokiem na promy. Polecam! :)",
+"en": false
+},
+{
 "n": "Penny D.",
 "d": "2026-10-26",
 "s": "Airbnb",
 "r": 10.0,
 "t": "Perfect. Alles was tip top in orde. Grote kamer, goede douche, thee en water staan er voor je klaar. Veel opbergruimte. Hebben zelfs extra nacht geboekt.",
-"en": false
-},
-{
-"n": "Weronika A.",
-"d": "2026-09-19",
-"s": "Booking.com",
-"r": 10.0,
-"t": "Świetne miejsce noclegowe na Malcie. Apartament jest położony w Three Cities - urokliwe miejsce, spokojne, bez natłoku turystów, a zarazem blisko Vallety. Najbliższy przystanek - 2 minuty od obiektu, Wodna taxi łodzią do Vallety lub prom - 5 minut. Obiekt czysty, zadbany. Ogromny plus przejściówki…",
 "en": false
 }
 ]
@@ -2054,7 +2054,7 @@
 "ci": "15:00",
 "co": "11:00",
 "minN": 3,
-"from": 37,
+"from": 32,
 "nrev": 30,
 "avg10": 9.57,
 "revs": [
@@ -3710,7 +3710,7 @@
 "ci": "16:00",
 "co": "10:00",
 "minN": 4,
-"from": 51,
+"from": 50,
 "nrev": 7,
 "avg10": 9.71,
 "revs": [
